@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Arconada",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3128400.198689999524504, 2255698.281610000412911 ], [ 3135469.974909999873489, 2255698.281610000412911 ], [ 3135469.974909999873489, 2248705.058790000621229 ], [ 3128400.198689999524504, 2248705.058790000621229 ], [ 3128400.198689999524504, 2255698.281610000412911 ] ] ] } }
+]
+}

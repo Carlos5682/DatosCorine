@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Padilla_de_Arriba",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3154491.831400000490248, 2263442.4666 ], [ 3161339.540900000371039, 2263442.4666 ], [ 3161339.540900000371039, 2255825.688599999062717 ], [ 3154491.831400000490248, 2255825.688599999062717 ], [ 3154491.831400000490248, 2263442.4666 ] ] ] } }
+]
+}
