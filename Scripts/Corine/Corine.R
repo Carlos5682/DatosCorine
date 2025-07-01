@@ -297,7 +297,7 @@ options(future.globals.maxSize = 2 * 1024^3)
 parallel::detectCores()
 future::availableCores()
 
-plan(multisession, workers = 10)
+plan(multisession, workers = 12)
 
 ##-----------------------------2.2 Obtener municipios-----------------------
 municipios <- esp_get_munic(moveCAN = FALSE, epsg = 3035)
@@ -395,7 +395,6 @@ procesar_comunidad <- function(comunidad_objetivo) {
 
 ##----------------------------2.5 Ejecutar en paralelo-------------------
 resultados_totales <- future_lapply(comunidades, procesar_comunidad)
-
 ##----------------------------2.6 Resumen final--------------------------
 cat("\n✅ Procesamiento completado.\n")
 
