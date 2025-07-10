@@ -7,6 +7,7 @@ library(ggrepel)
 library(mapSpain)
 library(bslib)
 library(ggnewscale)
+library(shinycssloaders)
 
 #---------------------Pre-carga de datos----------------------------------------------
 CCAA_sf <- esp_get_ccaa(moveCAN = FALSE)
@@ -81,7 +82,9 @@ ui <- page_sidebar(
       condition = "output.showMapPanels",
       tabsetPanel(
         tabPanel("Usos del suelo",
-                 plotOutput("Corine"),
+                 withSpinner(
+                   plotOutput("Corine"), type = 4, color = "#2c7a7b", 
+                   ),
                  br(),
                  uiOutput("textocorine"))
       )
@@ -216,7 +219,25 @@ server <- function(input, output, session) {
   
   # Renderiza el mapa
   output$Corine <- renderPlot({
-    req(input$comunidad, input$municipio)
+    
+    validate(
+      need(input$comunidad != "" && input$municipio != "", "")
+    )
+    
+    # Solo si ambas selecciones están presentes, se valida la coherencia entre comunidad y municipio
+    if (input$comunidad != "" && input$municipio != "") {
+      validate(
+        need({
+          cod_com <- CCAA_sf %>%
+            filter(ccaa.shortname.es == input$comunidad) %>%
+            pull(codauto)
+          mun <- municipios %>%
+            filter(name == input$municipio, codauto == cod_com)
+          nrow(mun) > 0
+        }, "")
+      )
+    }
+    
     
     # Normaliza nombre para la URL
     
@@ -231,11 +252,6 @@ server <- function(input, output, session) {
     }, error = function(e) {
       NULL
     })
-    
-    validate(
-      need(!is.null(corine_muni) && nrow(corine_muni) > 0 && !all(is.na(st_geometry(corine_muni))),
-           "No se pudo cargar el archivo GeoJSON para el municipio seleccionado.")
-    )
     
     municipio_sf <- municipio_sf()
     
@@ -281,7 +297,27 @@ server <- function(input, output, session) {
   }, bg = "transparent")
   
   output$textocorine <- renderUI({
-    req(input$comunidad, input$municipio)
+    
+    validate(
+      need(input$comunidad != "" && input$municipio != "", "")
+    )
+    
+    # Solo si ambas selecciones están presentes, se valida la coherencia entre comunidad y municipio
+    if (input$comunidad != "" && input$municipio != "") {
+      validate(
+        need({
+          cod_com <- CCAA_sf %>%
+            filter(ccaa.shortname.es == input$comunidad) %>%
+            pull(codauto)
+          mun <- municipios %>%
+            filter(name == input$municipio, codauto == cod_com)
+          nrow(mun) > 0
+        }, "")
+      )
+    }
+    
+    
+    
     
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
@@ -295,10 +331,6 @@ server <- function(input, output, session) {
       NULL
     })
     
-    validate(
-      need(!is.null(corine_muni) && nrow(corine_muni) > 0 && !all(is.na(st_geometry(corine_muni))),
-           "No se pudo cargar el archivo GeoJSON para el municipio seleccionado.")
-    )
     
     municipio <- municipio_sf()
     corine_muni <- st_intersection(corine_muni, municipio)
