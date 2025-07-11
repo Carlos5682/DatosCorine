@@ -41,7 +41,7 @@ bath_tints <- colorRampPalette(
 ui <- page_sidebar(
   
   ##--------------------Titulo de la aplicacion---------------------
-  title = "-CartoAmbiente- ",
+  title = "CartoAmbiente",
   
   sidebar = sidebar(
     ##-----------------Selector de comunidad------------------------
