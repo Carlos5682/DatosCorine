@@ -36,17 +36,25 @@ bath_tints <- colorRampPalette(
 
 #----------------------Mensajes explicativos de los mapas-----------------------
 
+##---------------------------------Mensaje Corine-------------------------------
+
 info_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Información general sobre el mapa de usos del suelo"),
-  p("Este mapa se ha elaborado a partir de los datos del proyecto CORINE Land Cover 2018, una iniciativa europea que proporciona información armonizada sobre la ocupación y el uso del suelo en Europa."),
+  p("Este mapa ha sido elaborado a partir de los datos del proyecto CORINE Land Cover 2018, una iniciativa europea que proporciona información armonizada sobre la ocupación y el uso del suelo en Europa."),
   p("CORINE (Coordination of Information on the Environment) clasifica el territorio europeo en distintas categorías de uso del suelo, lo que permite analizar la estructura del paisaje y su evolución temporal."),
   
   br(),
   
   h4("Presentación y niveles de clasificación"),
-  p("El mapa está disponible en tres niveles jerárquicos de clasificación: el nivel 1 corresponde a las categorías más generales, mientras que el nivel 3 ofrece el mayor nivel de detalle. Esta estructura facilita distintos niveles de análisis, desde una visión panorámica hasta un estudio más específico."),
+  p("El mapa presenta tres niveles jerárquicos de clasificación:"),
+  tags$ul(
+    tags$li(strong("Nivel 1:"), " agrupa los usos del suelo por el primer dígito del código CORINE (por ejemplo, todos los códigos que comienzan con '1'). Representa las categorías más generales."),
+    tags$li(strong("Nivel 2:"), " se obtiene considerando los dos primeros dígitos del código CORINE (por ejemplo, '11'), lo cual permite una clasificación intermedia."),
+    tags$li(strong("Nivel 3:"), " corresponde al código completo de tres dígitos (por ejemplo, '112'), y proporciona el mayor nivel de detalle.")
+  ),
+  p("Esta jerarquía proviene directamente de la estructura de codificación del sistema CORINE y no ha sido modificada. Facilita distintos niveles de análisis, desde una visión general del territorio hasta un enfoque más detallado."),
   
   br(),
   
@@ -63,8 +71,79 @@ info_corine_ui <- div(
   p("Para facilitar la interpretación, bajo el mapa se muestran los usos del suelo mayoritarios en el municipio seleccionado, junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio.")
 )
 
+nota_corine_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  p(em("Nota:")),
+  tags$ul(
+    tags$li("La leyenda del mapa corresponde a los usos visibles en el municipio seleccionado y sus alrededores."),
+    tags$li("Los porcentajes mostrados debajo del mapa hacen referencia exclusivamente al área del municipio."),
+    tags$li("El sistema de coordenadas utilizado es ETRS89 / LAEA Europe (EPSG:3035)."),
+    tags$li(
+      "El procesamiento y visualización del mapa se ha realizado en ",
+      strong("RStudio"),
+      " utilizando funciones de los paquetes ",
+      code("sf"), ", ",
+      code("dplyr"), ", ",
+      code("ggplot2"), " y ",
+      code("mapSpain"), "."
+    )
+  )
+)
 
 
+
+##-----------------------------------Mensaje Litologias-------------------------
+
+info_litologias_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  
+  h4("Información general sobre el mapa de litologías"),
+  p("Este mapa ha sido elaborado a partir del Mapa Litológico de la Península Ibérica, Baleares y Canarias a escala 1:1.000.000."),
+  p("Fue desarrollado por el Instituto Geológico y Minero de España (IGME), a partir del Mapa Geológico de la Península Ibérica, Baleares y Canarias editado en 1995."),
+  
+  br(),
+  
+  h4("Presentación y niveles de clasificación"),
+  p("El mapa ofrece dos niveles jerárquicos de clasificación:"),
+  tags$ul(
+    tags$li(strong("Nivel 1:"), " corresponde a categorías generales de litologías, basadas directamente en la columna ", code("LITOLOGIA"), " de los datos originales."),
+    tags$li(strong("Nivel 2:"), " proporciona una clasificación más detallada, utilizando la columna ", code("DLO"), ".")
+  ),
+  p("Ambos niveles provienen directamente de la estructura de los datos proporcionados por el IGME, sin modificaciones o reinterpretaciones propias. Esta jerarquía facilita distintos enfoques de análisis, desde una visión general hasta un estudio más detallado."),
+  
+  br(),
+  
+  h4("Acceso a los datos"),
+  p("Los datos utilizados para generar este mapa pueden descargarse desde el IGME (Instituto Geológico y Minero de España). Están disponibles en: ",
+    a("https://info.igme.es/cartografiadigital/geologica/Geologicos1MMapa.aspx?Id=Litologico1000&language=es",
+      href = "https://info.igme.es/cartografiadigital/geologica/Geologicos1MMapa.aspx?Id=Litologico1000&language=es",
+      target = "_blank")
+  ),
+  
+  br(),
+  
+  h4("Interpretación del mapa"),
+  p("Para facilitar su interpretación, bajo el mapa se presentan las litologías mayoritarias del municipio seleccionado, junto con su respectivo porcentaje. Esto permite obtener una visión general rápida sobre la distribución del territorio según su composición litológica.")
+)
+
+nota_litologia_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  p(em("Nota:")),
+  tags$ul(
+    tags$li("La leyenda del mapa corresponde a las litologias visibles en el municipio seleccionado y sus alrededores."),
+    tags$li("Los porcentajes mostrados debajo del mapa hacen referencia exclusivamente al área del municipio."),
+    tags$li("El sistema de coordenadas utilizado es ETRS89 / LAEA Europe (EPSG:3035)."),
+    tags$li(
+      "El procesamiento y visualización del mapa se ha realizado en ",
+      strong("RStudio"),
+      " utilizando funciones de los paquetes ",
+      code("sf"), ", ",
+      code("dplyr"), ", ",
+      code("ggplot2"), " y ",
+      code("mapSpain"), "."
+    )
+  )
+)
 
 
 #---------------------------------------------UI---------------------------------------
@@ -113,9 +192,10 @@ ui <- page_sidebar(
           style = "max-width: 200px; margin-bottom: 1em;"
         ),
         h2("Bienvenido a CartoAmbiente"),
-        p("CartoAmbiente es una aplicación diseñada para generar mapas ambientales a nivel municipal en toda España."),
-        p("Su objetivo es facilitar el acceso a la cartografía ambiental de manera intuitiva y accesible para todos."),
-        p("Selecciona una comunidad autonoma y un municipio para comenzar a explorar.")
+        p("CartoAmbiente es un proyecto diseñado para generar mapas ambientales a nivel municipal en toda España. Su objetivo es facilitar el acceso a la cartografía ambiental de forma intuitiva y accesible para todo tipo de usuarios."),
+        p("Este proyecto ha sido desarrollado en el marco de un Trabajo de Fin de Grado del Grado en Ciencias Ambientales, en la Universidad de Alcalá de Henares."),
+        p("Para cualquier consulta o sugerencia, puedes escribir a: ", a("correo@ejemplo.com", href = "mailto:correo@ejemplo.com")),
+        p("Selecciona una comunidad autónoma y un municipio para comenzar a explorar. 🔍")
       )
     ),
     
@@ -136,6 +216,7 @@ ui <- page_sidebar(
                             br(),
                             ######-------------Resumen de usos-----------------
                             uiOutput("textocorine1"),
+                            nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                               img(
@@ -154,6 +235,7 @@ ui <- page_sidebar(
                             br(),
                             ######-------------Resumen de usos-----------------
                             uiOutput("textocorine2"),
+                            nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                               img(
@@ -173,6 +255,7 @@ ui <- page_sidebar(
                             br(),
                             ######-----------------Resumen de usos-------------
                             uiOutput("textocorine"),
+                            nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                               img(
@@ -186,21 +269,13 @@ ui <- page_sidebar(
         
         ####------------------------------ Litología---------------------------
         tabPanel("Litología",
-                 div(
-                   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                   h4("Información general sobre el mapa de litologia"),
-                   p("Este mapa ha sido elaborado a partir de los datos del proyecto (--), "),
-                   p("CORINE (Coordination of Information on the Environment) clasifica el territorio en distintas categorías de uso del suelo, permitiendo el análisis espacial del paisaje y su evolución a lo largo del tiempo."),
-                   p("Esta capa puede descargarse desde el Centro de Descargas del CNIG (Centro Nacional de Información Geográfica)."),
-                   br(),
-                   h5("Resumen de las litologias"),
-                   p("Para facilitar la interpretación, bajo el mapa se muestran las litologías mayoritarios en el municipio seleccionado, junto con su respectivo porcentaje. Esto permite obtener una idea general de la distribución del territorio.")
-                 ),
+                 info_litologias_ui,
                  withSpinner(
                    plotOutput("Litologia"), type = 4, color = "#2c7a7b"
                  ),
                  br(),
                  uiOutput("textolitologia"),
+                 nota_litologia_ui,
                  div(
                    style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                    img(
