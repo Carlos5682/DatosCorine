@@ -67,9 +67,14 @@ info_corine_ui <- div(
   
   br(),
   
-  h4("Interpretación del mapa"),
-  p("Para facilitar la interpretación, bajo el mapa se muestran los usos del suelo mayoritarios en el municipio seleccionado, junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio.")
+  h4("Mapa")
 )
+
+info2_corine_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  
+  h4("Interpretación del mapa"),
+  p("Para facilitar la interpretación, se muestran los usos del suelo mayoritarios en el municipio seleccionado, junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
 
 nota_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
@@ -214,8 +219,24 @@ ui <- page_sidebar(
                               plotOutput("Corine1"), type = 4, color = "#2c7a7b"
                             ),
                             br(),
+                            info2_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("textocorine1")),
+                            br(),
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              h4("Descargar capas"),
+                              selectInput(
+                                "formato_descarga", 
+                                "Formato de descarga:",
+                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
+                              ),
+                              downloadButton("desc_corine_n1", "Descargar capa del municipio y sus alrededores"),
+                              downloadButton("desc_corine_n1_recortada", "Descargar capa del municipio")
+                            ),
+                            br(),
                             ######-------------Resumen de usos-----------------
-                            uiOutput("textocorine1"),
                             nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
@@ -233,8 +254,24 @@ ui <- page_sidebar(
                               plotOutput("Corine2"), type = 4, color = "#2c7a7b"
                             ),
                             br(),
+                            info2_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("textocorine2")),
+                            br(),
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              h4("Descargar capas"),
+                              selectInput(
+                                "formato_descarga", 
+                                "Formato de descarga:",
+                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
+                              ),
+                              downloadButton("desc_corine_n2", "Descargar capa del municipio y sus alrededores"),
+                              downloadButton("desc_corine_n2_recortada", "Descargar capa del municipio")
+                            ),
+                            br(),
                             ######-------------Resumen de usos-----------------
-                            uiOutput("textocorine2"),
                             nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
@@ -248,13 +285,29 @@ ui <- page_sidebar(
                    #####-------------------- Corine nivel 3----------------
                    tabPanel("Corine nivel 3",
                             info_corine_ui,
-                            ######-------------Pantalla de carga---------------
+                            ######-----------Pantalla de carga-----------------
                             withSpinner(
-                              plotOutput("Corine"), type = 4, color = "#2c7a7b"
+                              plotOutput("Corine3"), type = 4, color = "#2c7a7b"
                             ),
                             br(),
-                            ######-----------------Resumen de usos-------------
-                            uiOutput("textocorine"),
+                            info2_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("textocorine3")),
+                            br(),
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              h4("Descargar capas"),
+                              selectInput(
+                                "formato_descarga", 
+                                "Formato de descarga:",
+                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
+                              ),
+                              downloadButton("desc_corine_n3", "Descargar capa del municipio y sus alrededores"),
+                              downloadButton("desc_corine_n3_recortada", "Descargar capa del municipio")
+                            ),
+                            br(),
+                            ######-------------Resumen de usos-----------------
                             nota_corine_ui,
                             div(
                               style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
@@ -964,7 +1017,7 @@ server <- function(input, output, session) {
   })
   
   ##-----------------------------Mapa Corine nivel 3-------------------------
-  output$Corine <- renderPlot({
+  output$Corine3 <- renderPlot({
     
     validar_municipio()
     
@@ -1011,7 +1064,7 @@ server <- function(input, output, session) {
   
   ##-------------------------Texto Corine nivel 3---------------------------
   
-  output$textocorine <- renderUI({
+  output$textocorine3 <- renderUI({
     
     validar_municipio()
     
