@@ -229,7 +229,178 @@ Balsas de evaporación para extracción de sal, activas o recientemente abandona
   )
 )
 
+dicc_corine_3 <- data.frame(
+  Uso = c(
+    "Tejido urbano continuo",
+    "Tejido urbano discontinuo",
+    "Zonas industriales o comerciales",
+    "Redes viarias, ferroviarias y terrenos asociados",
+    "Zonas portuarias",
+    "Aeropuertos",
+    "Zonas de extracción minera",
+    "Escombreras y vertederos",
+    "Zonas en construcción",
+    "Zonas verdes urbanas",
+    "Instalaciones deportivas y recreativas",
+    "Tierras de labor en secano",
+    "Terrenos regados permanentemente",
+    "Arrozales",
+    "Viñedos",
+    "Frutales",
+    "Olivares",
+    "Praderas",
+    "Cultivos anuales asociados con cultivos permanentes",
+    "Mosaico de cultivos",
+    "Terrenos principalmente agrícolas, pero con importantes espacios de vegetación natural",
+    "Sistemas agroforestales",
+    "Bosques de frondosas",
+    "Bosques de coníferas",
+    "Bosque mixto",
+    "Pastizales naturales",
+    "Landas y matorrales",
+    "Vegetación esclerófila",
+    "Matorral boscoso de transición",
+    "Playas, dunas y arenales",
+    "Roquedo",
+    "Espacios con vegetación escasa",
+    "Zonas quemadas",
+    "Glaciares y nieves permanentes",
+    "Humedales y zonas pantanosas",
+    "Turberas",
+    "Marismas",
+    "Salinas",
+    "Zonas llanas intermareales",
+    "Cursos de agua",
+    "Láminas de agua",
+    "Lagunas costeras",
+    "Estuarios",
+    "Mares y océanos"
+  ),
+  Explicacion = c(
+    "Zonas donde las estructuras urbanas y redes de transporte dominan claramente la superficie. Más del 80% del suelo está cubierto por elementos impermeables como edificios, carreteras y superficies artificiales. Las áreas con vegetación o suelo desnudo son excepcionales.
 
+",
+    "Zonas urbanas con presencia significativa de áreas vegetadas y superficies desnudas distribuidas de forma discontinua. Las estructuras impermeables como edificios, vías y superficies pavimentadas cubren entre 30 y 80% del terreno.",
+    "Zonas dominadas por edificios, otras construcciones y superficies artificiales (hormigón, asfalto, tierra apisonada, etc.). Puede haber presencia de vegetación (usualmente césped) u otras superficies no selladas.
+Incluye también:
+
+Áreas con instalaciones cubiertas, establos, talleres, almacenes y zonas de carga relacionadas con la agroindustria.
+
+Áreas deterioradas con vegetación ruderal.
+
+Edificaciones agrícolas ligadas a procesos de colectivización.
+Esta clase se asigna a unidades de terreno utilizadas para actividades industriales, comerciales o servicios públicos.",
+    "Autopistas y líneas ferroviarias, junto con sus instalaciones (estaciones, andenes, terraplenes) y franjas de vegetación lineal de menos de 100m de ancho.
+Ancho mínimo para su inclusión: 100m.",
+    "Infraestructuras de puertos, tanto en tierra como en agua, incluyendo muelles, astilleros y marinas.",
+    "Instalaciones aeroportuarias: pistas, edificios y terrenos asociados. Esta clase abarca cualquier tipo de infraestructura terrestre destinada al transporte aéreo.",
+    "Zonas de extracción a cielo abierto de materiales de construcción (como canteras de arena, graveras) u otros minerales (minas a cielo abierto). Incluye también excavaciones mineras que han quedado inundadas.",
+    "Zonas utilizadas como vertederos de residuos públicos, industriales o procedentes de actividades mineras.",
+    "Áreas en proceso de desarrollo o transformación artificial, incluyendo excavaciones de suelo o roca madre y movimientos de tierra. Esta clase se asigna a zonas modificadas por actividades humanas, que están en transición hacia superficies artificiales.
+
+Caso particular:
+También incluye zonas agrícolas que se están reconvirtiendo en áreas naturales. Durante esta transición, el terreno puede permanecer como suelo desnudo por un tiempo, al pasar de un uso agrícola a una función de conservación o restauración ecológica.",
+    "Áreas con vegetación ubicadas dentro o parcialmente rodeadas por tejido urbano. Esta clase se asigna a zonas verdes urbanas con carácter recreativo u ornamental, generalmente accesibles al público.",
+    "Zonas destinadas al deporte, recreación y actividades al aire libre. Incluye:
+
+Campings, campos deportivos, parques recreativos, campos de golf, hipódromos, entre otros.
+
+Parques formales ubicados fuera del tejido urbano.
+
+Caso particular:
+Estaciones de esquí con nieve artificial:
+Muchas estaciones cuentan con infraestructura para fabricar nieve artificial, incluyendo estanques de agua y alteración del relieve (nivelación, remoción de rocas, etc.). Estas zonas pueden incluir productos químicos en la nieve para retrasar su derretimiento. Se consideran superficies artificiales por el fuerte impacto humano en el medio ambiente.",
+    "Parcelas agrícolas cultivadas con cultivos anuales no permanentes, bajo un sistema de rotación y dependientes del agua de lluvia.
+Incluye tierras en barbecho dentro del mismo sistema y parcelas con riego esporádico mediante dispositivos temporales (aspersores portátiles).",
+    "Parcelas agrícolas con cultivos de regadío dependientes de una infraestructura permanente (canales, sistemas de drenaje, etc.).
+No incluye tierras con riego esporádico o dispositivos temporales.",
+    "Parcelas agrícolas preparadas para el cultivo de arroz, compuestas por superficies planas inundadas periódicamente y con canales de riego.",
+    "Zonas plantadas con vides. Los viñedos cubren más del 50% de la parcela y determinan el uso principal del suelo.",
+    "Parcelas agrícolas plantadas con árboles frutales o arbustos, incluidos los de frutos secos. Pueden estar organizadas con una sola especie o en mezcla, a menudo sobre superficies con césped permanente.
+
+Caso particular:
+Plantaciones de lúpulo: Cultivos con estructuras altas de soporte, utilizados para la producción de lúpulo.",
+    "Parcelas agrícolas plantadas con olivos para producción de aceitunas.",
+    "Áreas de pradera permanente utilizadas con fines agrícolas, afectadas por la actividad humana.
+Flora dominada por gramíneas, típicamente usada para pastoreo o corte de heno.
+
+Casos particulares:
+
+Praderas sobre tierras abandonadas: Parcelas agrícolas sin uso durante más de tres años, convertidas en pradera. Su identificación requiere imágenes satelitales multianuales.
+
+Parcelas sin uso entre construcciones o alrededor de zonas urbanizadas.",
+    "Parcelas con cultivos anuales no permanentes (principalmente tierras de cultivo) asociados con cultivos permanentes (frutales, olivos o viñas) en la misma parcela.",
+    "Mosaico de pequeñas parcelas agrícolas con diferentes tipos de cultivo: cultivos anuales, pastos y/o cultivos permanentes, a veces con casas dispersas o jardines.",
+    "Zonas agrícolas con intercalado significativo de áreas naturales o seminaturales (bosques, matorrales, humedales, cuerpos de agua, afloramientos minerales), en patrón de mosaico.",
+    "Parcelas con cultivos anuales o pastoreo bajo cobertura de especies forestales (uso mixto agrícola-forestal).",
+    "Formaciones vegetales compuestas principalmente por árboles (incluyendo sotobosque de arbustos y matorrales), donde predominan las especies de hoja ancha (frondosas).",
+    "Formaciones vegetales dominadas por árboles (con presencia de arbustos y matorrales en el sotobosque), donde predominan las especies de coníferas.",
+    "Formaciones vegetales de árboles (con sotobosque de arbustos y matorrales), donde ningún tipo (frondosas o coníferas) predomina claramente.",
+    "Praderas con poca o moderada influencia humana, de baja productividad, situadas frecuentemente en terrenos irregulares, con pendientes o zonas rocosas, y a menudo mezcladas con vegetación (semi)natural.
+
+Casos particulares:
+
+Praderas alpinas: Se ubican por encima del límite forestal en zonas montañosas, formadas por comunidades herbáceas en su estado natural de equilibrio, donde las condiciones no permiten el desarrollo de vegetación leñosa.
+
+Praderas aluviales y llanuras costeras: Formaciones herbáceas con alta humedad del suelo e inundaciones estacionales, bajo baja influencia humana.",
+    "Vegetación con cobertura baja y densa, dominada por arbustos bajos o enanos (como brezos, zarzas, aulagas, retamas, etc.) y plantas herbáceas, representando una etapa de equilibrio climático (clímax).
+
+Caso particular:
+
+Matorral de pino negro enano: Formaciones de pino enano en estado clímax, con copas compactas de 2–2,5m de altura, situadas a gran altitud, donde no se desarrollan árboles más altos.",
+    "Vegetación arbustiva densa en etapa de clímax, típica de climas mediterráneos, como el maquis, matorral mediterráneo (matorral) y garriga. Compuesta por especies resistentes a la sequía y al fuego.",
+    "Vegetación de transición con matorrales y herbáceas, y árboles dispersos. Representa etapas de:
+
+Degradación del bosque,
+
+Regeneración forestal o
+
+Sucesión natural.
+
+Caso particular:
+
+Turberas arboladas y zonas de transición: Vegetación mixta de arbustos y hierbas, con árboles dispersos en los bordes de turberas.",
+    "Extensiones naturales no vegetadas de arena, grava o guijarros, tanto en zonas costeras como continentales. Incluye lechos de ríos torrenciales. La cobertura vegetal no supera el 10%.",
+    "Zonas con roquedos, acantilados, pedreras y formaciones rocosas, incluyendo áreas con erosión activa y planicies salinas interiores por encima de la línea de marea alta.",
+    "Zonas con vegetación dispersa que cubre entre el 10 y el 50% de la superficie. Incluye:
+
+Estepas, tundra, zonas con líquenes, tierras malas, áreas kársticas, y vegetación dispersa en alta montaña.",
+    "Zonas de vegetación leñosa natural afectadas por incendios recientes.",
+    "Zonas cubiertas por glaciares o campos de nieve permanente durante todo el año.
+
+",
+    "Zonas bajas generalmente inundadas en invierno, con suelos saturados de agua dulce durante todo el año.
+
+Caso particular:
+
+Turberas bajas sin árboles y turberas de transición, a veces con una capa de turba superior a 30cm.
+Se encuentran en depresiones interiores, valles fluviales, zonas de manantiales o márgenes de turberas altas. Su superficie puede ser plana o cóncava, con pequeñas formaciones como montículos o matas.",
+    "Humedales con acumulación significativa de materia vegetal descompuesta, especialmente musgo del género Sphagnum.
+Incluye turberas naturales y explotadas.
+
+Caso particular:
+
+Turberas explotadas: zonas donde se extrae la turba para uso comercial o agrícola.",
+    "Zonas vegetadas y bajas del litoral, situadas por encima del nivel de marea alta, susceptibles a inundaciones por agua marina.
+Estas áreas están frecuentemente en proceso de relleno por sedimentos marinos (lodo, arena), lo que permite la colonización por plantas halófilas.",
+    "Piscinas de evaporación para la extracción de sal del agua salada, ya sean activas o en proceso de abandono.
+Incluye zonas de marismas salinas explotadas para producción de sal, claramente distinguibles por su parcelación y estructuras de diques o embalses.",
+    "Zona costera bajo influencia de las mareas, ubicada entre el mar abierto y tierra firme.
+Se inunda dos veces al día en un ciclo de unas 12 horas, abarcando el área entre el nivel promedio de marea baja y marea alta.
+Generalmente está desprovista de vegetación y compuesta por lodo, arena o roca.",
+    "Canales naturales o artificiales que funcionan como vías de drenaje, incluyendo canales.
+Ancho mínimo para su inclusión: 100m.",
+    "Zonas naturales o artificiales con agua estancada visible durante la mayor parte del año.
+    Incluye lagos, lagunas y embalses.",
+    "Extensiones de agua salobre o salada ubicadas en zonas costeras, separadas del mar por una lengua de tierra u otra formación topográfica similar.
+Pueden estar conectadas al mar de forma permanente o temporal.
+
+",
+    "Desembocaduras de ríos bajo influencia de las mareas, donde el flujo de agua sube y baja según el ciclo de marea.",
+    "Zona mar adentro a partir del límite inferior de la marea baja. Incluye aguas abiertas del mar y océano."
+    
+  )
+)
 #---------------------------------------------UI---------------------------------------
 ui <- page_sidebar(
   
@@ -343,6 +514,10 @@ ui <- page_sidebar(
                                 withSpinner(plotOutput("barras_corine_3"),
                                             type = 4,
                                             color = "#2c7a7b")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("selector_uso_corine_3")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("explicacion_uso_3")),
                             div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
                                 withSpinner(uiOutput("textocorine3"),
                                             type = 4,
@@ -1020,7 +1195,7 @@ server <- function(input, output, session) {
   
   output$desc_litologia_n1_recortada <- crear_handler_descarga(
     nombre_base = reactive(paste0("capa_litologia_n1_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = litologia_n1_capa_recortada,  # corregido typo aquí
+    obtener_capa_sf = litologia_n1_capa_recortada,  
     formato_input = reactive(input$formato_descarga_litologia_n1)
   )
   
@@ -1057,8 +1232,8 @@ server <- function(input, output, session) {
                 colour = NA) +
         scale_fill_manual(
           values = bath_tints(length(levels))) +
-        guides(fill = "none") + # <-- Aquí quitas la leyenda 
-        ggnewscale::new_scale_fill()               # reiniciar escala fill
+        guides(fill = "none") + 
+        ggnewscale::new_scale_fill()             
     }
     
     p <- p +
@@ -1183,8 +1358,8 @@ server <- function(input, output, session) {
                 colour = NA) +
         scale_fill_manual(
           values = bath_tints(length(levels))) +
-        guides(fill = "none") + # <-- Aquí quitas la leyenda 
-        ggnewscale::new_scale_fill()               # reiniciar escala fill
+        guides(fill = "none") + 
+        ggnewscale::new_scale_fill()              
     }
     
     p <- p +
@@ -1241,9 +1416,9 @@ server <- function(input, output, session) {
       )
   })
   
-  ##----------------------------------INTENTO-------------------------------
+  ##----------------------------------Explicacion uso n2-------------------------------
   # Generar el vector de usos únicos del municipio
-  usos_municipio <- reactive({
+  usos_municipio_n2 <- reactive({
     validar_municipio()
     corine_muni <- corine_n2_capa_completa()
     sort(unique(corine_muni$Uso_n2))  
@@ -1251,10 +1426,10 @@ server <- function(input, output, session) {
   
   # Renderizar el UI del selectInput solo si hay datos
   output$selector_uso_corine_2 <- renderUI({
-    req(usos_municipio())  # Espera a que haya datos
+    req(usos_municipio_n2())  # Espera a que haya datos
     selectInput("uso_seleccionado",
                 "Selecciona un uso del suelo para ver su explicación:",
-                choices = c("", usos_municipio()),  # añade opción vacía
+                choices = c("", usos_municipio_n2()),  
                 selected = "")
     
   })
@@ -1335,8 +1510,8 @@ server <- function(input, output, session) {
                 colour = NA) +
         scale_fill_manual(
           values = bath_tints(length(levels))) +
-        guides(fill = "none") + # <-- Aquí quitas la leyenda 
-        ggnewscale::new_scale_fill()               # reiniciar escala fill
+        guides(fill = "none") +
+        ggnewscale::new_scale_fill()             
     }
     
     p <- p +
@@ -1391,6 +1566,37 @@ server <- function(input, output, session) {
         legend.position = "none",
         axis.text.y = element_text(size = 11)
       )
+  })
+  
+  
+  ##----------------------------------Explicacion uso n3-------------------------------
+  # Generar el vector de usos únicos del municipio
+  usos_municipio_n3 <- reactive({
+    validar_municipio()
+    corine_muni <- corine_n3_capa_completa()
+    sort(unique(corine_muni$Uso))  
+  })
+  
+  # Renderizar el UI del selectInput solo si hay datos
+  output$selector_uso_corine_3 <- renderUI({
+    req(usos_municipio_n3())  # Espera a que haya datos
+    selectInput("uso_seleccionado",
+                "Selecciona un uso del suelo para ver su explicación:",
+                choices = c("", usos_municipio_n3()),  
+                selected = "")
+    
+  })
+  
+  # Mostrar la explicación del uso seleccionado
+  output$explicacion_uso_3 <- renderText({
+    req(input$uso_seleccionado)
+    explicacion <- dicc_corine_3$Explicacion[dicc_corine_3$Uso == input$uso_seleccionado]
+    
+    if (length(explicacion) == 0) {
+      "No hay descripción disponible para este uso."
+    } else {
+      explicacion
+    }
   })
   
   
