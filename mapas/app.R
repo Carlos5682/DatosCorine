@@ -8,6 +8,8 @@ library(mapSpain)
 library(bslib)
 library(ggnewscale)
 library(shinycssloaders)
+library(zip)
+library(stringr)
 
 #---------------------Pre-carga de datos----------------------------------------------
 CCAA_sf <- esp_get_ccaa(moveCAN = FALSE)
@@ -41,25 +43,38 @@ bath_tints <- colorRampPalette(
 info_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
-  h4("Información general sobre el mapa de usos del suelo"),
-  p("Este mapa ha sido elaborado a partir de los datos del proyecto CORINE Land Cover 2018, una iniciativa europea que proporciona información armonizada sobre la ocupación y el uso del suelo en Europa."),
-  p("CORINE (Coordination of Information on the Environment) clasifica el territorio europeo en distintas categorías de uso del suelo, lo que permite analizar la estructura del paisaje y su evolución temporal."),
+  h4("Información general sobre el Mapa de Litologías"),
+  p("El mapa muestra la distribución de los distintos usos del suelo en el territorio nacional: áreas urbanas, tierras agrícolas, zonas forestales, espacios naturales, entre otros."),
+  p("Está basado en los datos del proyecto europeo CORINE Land Cover 2018, desarrollado para recopilar y armonizar información sobre el uso del suelo en los países europeos."),
+  p("CORINE (acrónimo de 'Coordinación de la Información sobre el Medio Ambiente') clasifica el territorio según criterios comunes para toda Europa. Esta homogeneidad permite analizar cambios a lo largo del tiempo, comparar regiones y disponer de una base común para la toma de decisiones en materia de medio ambiente y ordenación territorial."),
   
   br(),
   
   h4("Presentación y niveles de clasificación"),
-  p("El mapa presenta tres niveles jerárquicos de clasificación:"),
+  p("El sistema de codificación de CORINE se organiza en tres niveles jerárquicos, con distinto grado de detalle:"),
   tags$ul(
-    tags$li(strong("Nivel 1:"), " agrupa los usos del suelo por el primer dígito del código CORINE (por ejemplo, todos los códigos que comienzan con '1'). Representa las categorías más generales."),
-    tags$li(strong("Nivel 2:"), " se obtiene considerando los dos primeros dígitos del código CORINE (por ejemplo, '11'), lo cual permite una clasificación intermedia."),
-    tags$li(strong("Nivel 3:"), " corresponde al código completo de tres dígitos (por ejemplo, '112'), y proporciona el mayor nivel de detalle.")
+    tags$li(strong("Nivel 1:"), " agrupa los grandes tipos de uso del suelo, como superficies artificiales, zonas agrícolas, etc."),
+    tags$li(strong("Nivel 2:"), " subdivide estas categorías en tipos más específicos, como zonas urbanas, zonas industriales, zonas de extracción minera, etc."),
+    tags$li(strong("Nivel 3:"), " ofrece el máximo nivel de detalle, distinguiendo unidades concretas como zonas en construcción, viñedos, olivares, etc.")
   ),
-  p("Esta jerarquía proviene directamente de la estructura de codificación del sistema CORINE y no ha sido modificada. Facilita distintos niveles de análisis, desde una visión general del territorio hasta un enfoque más detallado."),
+  p("Esta clasificación reproduce fielmente la estructura original de los datos CORINE, sin modificaciones ni interpretaciones propias. Su jerarquía facilita distintos niveles de análisis, desde una visión general del territorio hasta estudios más detallados."),
   
   br(),
   
-  h4("Acceso a los datos"),
-  p("Los datos utilizados para generar este mapa pueden descargarse desde el Centro de Descargas del CNIG (Centro Nacional de Información Geográfica). Están disponibles en: ",
+  h4("Tipo de información que puede extraerse"),
+  p("El mapa permite identificar patrones de ocupación del suelo y realizar análisis espaciales de carácter ambiental o territorial. Algunos ejemplos relevantes:"),
+  tags$ul(
+    tags$li("En municipios con predominio de áreas naturales (bosques, matorrales, zonas húmedas), pueden detectarse zonas especialmente sensibles a transformaciones de origen humano."),
+    tags$li("La presencia mayoritaria de cultivos puede estar asociada a dinámicas agrícolas intensivas o al riesgo de abandono rural."),
+    tags$li("La expansión del suelo urbano ofrece indicadores de presión sobre el entorno natural o agrícola."),
+    tags$li("Comparar regiones según el tipo de uso del suelo dominante facilita el análisis de desequilibrios territoriales."),
+    tags$li("Los cambios entre diferentes ediciones del mapa permiten observar procesos como la urbanización, la reforestación o la pérdida de espacios agrarios.")
+  ),
+  
+  br(),
+  
+  h4("Acceso a los datos originales"),
+  p("Los datos del proyecto CORINE Land Cover están disponibles para su consulta y descarga en el Centro Nacional de Información Geográfica (CNIG): ",
     a("https://centrodedescargas.cnig.es/CentroDescargas/corine-land-cover",
       href = "https://centrodedescargas.cnig.es/CentroDescargas/corine-land-cover",
       target = "_blank")
@@ -70,11 +85,12 @@ info_corine_ui <- div(
   h4("Mapa")
 )
 
+
 info2_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Interpretación del mapa"),
-  p("Para facilitar la interpretación, se muestran los usos del suelo mayoritarios en el municipio seleccionado, junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de usos del suelo en el municipio seleccionado, además de los 3 principales usos junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
 
 nota_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
@@ -99,7 +115,7 @@ nota_corine_ui <- div(
 
 ##-----------------------------------Mensaje Litologias-------------------------
 
-info_litologias_ui <- div(
+info_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Información general sobre el mapa de litologías"),
@@ -127,9 +143,14 @@ info_litologias_ui <- div(
   
   br(),
   
-  h4("Interpretación del mapa"),
-  p("Para facilitar su interpretación, bajo el mapa se presentan las litologías mayoritarias del municipio seleccionado, junto con su respectivo porcentaje. Esto permite obtener una visión general rápida sobre la distribución del territorio según su composición litológica.")
+  h4("Mapa")
 )
+
+info2_litologia_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  h4("Interpretación del mapa"),
+  p("Para facilitar la interpretación, se muestra un gráfico con la distribución de las litologías en el municipio seleccionado, además de las principales litologías junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+  
 
 nota_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
@@ -150,24 +171,77 @@ nota_litologia_ui <- div(
   )
 )
 
+#-------------------------------------Diccionarios------------------------------------
+
+dicc_corine_2 <- data.frame(
+  Uso = c("Zonas urbanas", 
+          "Zonas industriales, comerciales y de transporte",
+          "Zonas de extracción minera, vertederos y de construcción",
+          "Zonas verdes artifiacles, no agrícolas",
+          "Tierras de labor",
+          "Cultivos permanentes",
+          "Prados y praderas",
+          "Zonas agrícolas heterogéneas",
+          "Bosques", 
+          "Espacios de vegetación arbustiva y/o herbácea", 
+          "Espacios abiertos con poca o sin vegetación",
+          "Zonas húmedas continentales",
+          "Zonas húmedas litorales", 
+          "Aguas continentales", 
+          "Aguas marinas"),
+  Explicacion = c(
+    "Zonas ocupadas principalmente por viviendas y edificios utilizados para servicios administrativos o públicos, incluyendo sus áreas conexas (terrenos asociados, red vial de acceso, estacionamientos).",
+    "Zonas ocupadas principalmente por actividades industriales, comercio, servicios financieros y de transporte, incluyendo carreteras, vías férreas, aeropuertos, puertos fluviales y marítimos, así como sus terrenos asociados e infraestructuras de acceso. Incluye instalaciones de cría industrial de ganado.",
+    "Zonas artificiales ocupadas principalmente por actividades extractivas, sitios de construcción y vertederos de residuos creados por el ser humano, junto con sus terrenos asociados.",
+    "Zonas creadas voluntariamente para uso recreativo. Incluye parques urbanos, instalaciones deportivas y de ocio.",
+    "Tierras en rotación utilizadas para cultivos anuales y barbechos, ya sea de secano o regadío. Incluye cultivos inundados como arrozales.",
+    "Superficies ocupadas por cultivos perennes, sin rotación. Incluye frutales extensivos, olivares, castañares, nogales, viñedos y otros cultivos leñosos permanentes.",
+    "Tierras utilizadas de forma permanente (al menos 5 años) para producción de forraje. Incluye praderas naturales o sembradas, con uso agrícola moderado.",
+    "Zonas donde coexisten cultivos anuales y permanentes en la misma parcela o adyacentes, así como mezclas de cultivos, pastos y vegetación natural en mosaico.",
+    "Zonas cubiertas por árboles (coníferas o de hoja ancha, nativos o exóticos), con un patrón forestal y un dosel mínimo del 30 %, y árboles de más de 5 metros de altura bajo condiciones normales. Incluye plantaciones jóvenes con al menos 500 árboles por hectárea.",
+    "Zonas naturales o seminaturales cubiertas principalmente por arbustos o hierbas, incluyendo:
+
+Matorrales templados, mediterráneos y submediterráneos (maquia, garriga, matorral).
+
+Etapas de transición de bosque (recolonización natural o degradación).
+
+Praderas secas, húmedas, alpinas o subalpinas.
+
+Pastizales naturales en suelos pobres, laderas o zonas montañosas.
+Estas zonas pueden contener árboles dispersos (menos del 15 % de cobertura de copa) y vegetación adaptada a condiciones difíciles, muchas veces en zonas abandonadas o afectadas por eventos naturales.",
+    "Áreas naturales con escasa o nula cobertura vegetal. Incluye terrenos arenosos o rocosos afectados por erosión, pastizales esteparios, dunas, acantilados, pedregales, zonas con nieve o hielo permanentes, y áreas quemadas con vegetación leñosa.",
+    "Zonas inundadas o susceptibles de inundación durante gran parte del año por agua dulce, salobre o estancada, con vegetación específica compuesta por arbustos bajos, especies semileñosas o herbáceas. Incluye:
+
+Vegetación ribereña de lagos, ríos y arroyos.
+
+Turberas ricas (eutróficas), manantiales, pantanos y ciénagas en transición.
+
+Turberas altas y extensas con comunidades muy pobres en nutrientes y altamente ácidas, dominadas por esfagnos (musgos) que crecen sobre turba.",
+    "Zonas que se inundan por mareas altas en algún momento del ciclo anual. Incluye:
+
+Praderas salinas y marismas con distintos grados de salinidad y humedad.
+
+Áreas fangosas o arenosas que quedan sumergidas parcialmente en cada marea, normalmente sin plantas vasculares.
+
+Balsas de evaporación para extracción de sal, activas o recientemente abandonadas.",
+    "Lagos, lagunas y charcas de origen natural con agua dulce (no salina), así como aguas corrientes como ríos y arroyos. Incluye cuerpos de agua dulce artificiales como embalses y canales.",
+    "Aguas oceánicas y de plataforma continental, bahías y canales estrechos, incluyendo fiordos, estuarios y ensenadas marinas. También incluye aguas costeras salinas o salobres formadas por entradas de mar parcialmente aisladas por bancos de arena o barro."
+  )
+)
+
 
 #---------------------------------------------UI---------------------------------------
 ui <- page_sidebar(
   
-  ##-------------------- Titulo de la aplicacion --------------------
   title = "CartoAmbiente",
   
   sidebar = sidebar(
-    
-    ##----------------- Selector de comunidad ------------------------
     selectInput(
       "comunidad",
       "Selecciona una comunidad autónoma:",
       choices = c("-" = "", sort(unique(CCAA_sf$ccaa.shortname.es))),
       selected = NULL
     ),
-    
-    ##----------------- Selector de Municipio ------------------------
     selectizeInput(
       "municipio",
       "Selecciona un municipio:",
@@ -178,16 +252,12 @@ ui <- page_sidebar(
         maxOptions = 2300
       )
     ),
-    
-    ##---------------------Selector de Modo Oscuro---------------------------
     input_dark_mode(id = "mode", mode = "light")
   ),
   
-  ##-------------------- Panel principal ----------------------------
   div(
     id = "main-panel",
     
-    ###---------------- Pantalla de bienvenida (condicional) ------
     conditionalPanel(
       condition = "!output.showMapPanels",
       div(
@@ -204,143 +274,152 @@ ui <- page_sidebar(
       )
     ),
     
-    ###--------------------- Paneles de contenido ----------------------------
     conditionalPanel(
       condition = "output.showMapPanels",
       tabsetPanel(
+        
         ####----------------------Usos del suelo------------------------------
         tabPanel("Usos del suelo",
                  tabsetPanel(
-                   #####-------- Corine nivel 1--------------------------------
                    tabPanel("Corine nivel 1",
                             info_corine_ui,
-                            ######-----------Pantalla de carga-----------------
-                            withSpinner(
-                              plotOutput("Corine1"), type = 4, color = "#2c7a7b"
-                            ),
+                            withSpinner(plotOutput("Corine1"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_corine_ui,
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              uiOutput("textocorine1")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(plotOutput("barras_corine_1"),
+                                        type = 4,
+                                        color = "#2c7a7b")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(uiOutput("textocorine1"), type = 4, color = "#2c7a7b")),
                             br(),
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              h4("Descargar capas"),
-                              selectInput(
-                                "formato_descarga", 
-                                "Formato de descarga:",
-                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
-                              ),
-                              downloadButton("desc_corine_n1", "Descargar capa del municipio y sus alrededores"),
-                              downloadButton("desc_corine_n1_recortada", "Descargar capa del municipio")
-                            ),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                h4("Descargar capas"),
+                                selectInput("formato_descarga_corine_n1", "Formato de descarga:",
+                                            choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
+                                downloadButton("desc_corine_n1", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_corine_n1_recortada", "Descargar capa del municipio")),
                             br(),
-                            ######-------------Resumen de usos-----------------
                             nota_corine_ui,
-                            div(
-                              style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
-                              img(
-                                src = "Logoshiny.png",
-                                style = "max-width: 200px; margin-bottom: 1em;"
-                              )
-                            )
-                   ),
-                   #####----------Corine nivel 2----------------
-                   tabPanel("Corine nivel 2",
-                            info_corine_ui,
-                            ######-----------Pantalla de carga-----------------
-                            withSpinner(
-                              plotOutput("Corine2"), type = 4, color = "#2c7a7b"
-                            ),
-                            br(),
-                            info2_corine_ui,
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              uiOutput("textocorine2")),
-                            br(),
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              h4("Descargar capas"),
-                              selectInput(
-                                "formato_descarga", 
-                                "Formato de descarga:",
-                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
-                              ),
-                              downloadButton("desc_corine_n2", "Descargar capa del municipio y sus alrededores"),
-                              downloadButton("desc_corine_n2_recortada", "Descargar capa del municipio")
-                            ),
-                            br(),
-                            ######-------------Resumen de usos-----------------
-                            nota_corine_ui,
-                            div(
-                              style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
-                              img(
-                                src = "Logoshiny.png",
-                                style = "max-width: 200px; margin-bottom: 1em;"
-                              )
-                            )
+                            div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
+                                img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
                    ),
                    
-                   #####-------------------- Corine nivel 3----------------
-                   tabPanel("Corine nivel 3",
+                   tabPanel("Corine nivel 2",
                             info_corine_ui,
-                            ######-----------Pantalla de carga-----------------
-                            withSpinner(
-                              plotOutput("Corine3"), type = 4, color = "#2c7a7b"
-                            ),
+                            withSpinner(plotOutput("Corine2"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_corine_ui,
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              uiOutput("textocorine3")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(plotOutput("barras_corine_2"),
+                                        type = 4,
+                                        color = "#2c7a7b")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("selector_uso_corine_2")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("explicacion_uso_2")),
+                                
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("textocorine2")),
                             br(),
-                            div(
-                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                              h4("Descargar capas"),
-                              selectInput(
-                                "formato_descarga", 
-                                "Formato de descarga:",
-                                choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")
-                              ),
-                              downloadButton("desc_corine_n3", "Descargar capa del municipio y sus alrededores"),
-                              downloadButton("desc_corine_n3_recortada", "Descargar capa del municipio")
-                            ),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                h4("Descargar capas"),
+                                selectInput("formato_descarga_corine_n2", "Formato de descarga:",
+                                            choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
+                                downloadButton("desc_corine_n2", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_corine_n2_recortada", "Descargar capa del municipio")),
                             br(),
-                            ######-------------Resumen de usos-----------------
                             nota_corine_ui,
-                            div(
-                              style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
-                              img(
-                                src = "Logoshiny.png",
-                                style = "max-width: 200px; margin-bottom: 1em;"
-                              )
-                            )
+                            div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
+                                img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
+                   ),
+                   
+                   tabPanel("Corine nivel 3",
+                            info_corine_ui,
+                            withSpinner(plotOutput("Corine3"), type = 4, color = "#2c7a7b"),
+                            br(),
+                            info2_corine_ui,
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(plotOutput("barras_corine_3"),
+                                            type = 4,
+                                            color = "#2c7a7b")),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(uiOutput("textocorine3"),
+                                            type = 4,
+                                            color = "#2c7a7b")),
+                            br(),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                h4("Descargar capas"),
+                                selectInput("formato_descarga_corine_n3", "Formato de descarga:",
+                                            choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
+                                downloadButton("desc_corine_n3", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_corine_n3_recortada", "Descargar capa del municipio")),
+                            br(),
+                            nota_corine_ui,
+                            div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
+                                img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
                    )
                  )
         ),
         
         ####------------------------------ Litología---------------------------
         tabPanel("Litología",
-                 info_litologias_ui,
-                 withSpinner(
-                   plotOutput("Litologia"), type = 4, color = "#2c7a7b"
-                 ),
-                 br(),
-                 uiOutput("textolitologia"),
-                 nota_litologia_ui,
-                 div(
-                   style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
-                   img(
-                     src = "Logoshiny.png",
-                     style = "max-width: 200px; margin-bottom: 1em;"
+                 tabsetPanel(
+                   tabPanel("Litología nivel 1",
+                            info_litologia_ui,
+                            withSpinner(plotOutput("Litologia1"), 
+                                        type = 4, 
+                                        color = "#2c7a7b"),
+                            br(),
+                            info2_litologia_ui,
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(plotOutput("barras_litologia_1"),
+                                            type = 4,
+                                            color = "#2c7a7b")),
+                            
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                withSpinner(uiOutput("textolitologia1"),
+                                            type = 4,
+                                            color = "#2c7a7b")),
+                            br(),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                h4("Descargar capas"),
+                                selectInput("formato_descarga_litologia_n1", "Formato de descarga:",
+                                            choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
+                                downloadButton("desc_litologia_n1", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_litologia_n1_recortada", "Descargar capa del municipio")),
+                            br(),
+                            nota_litologia_ui,
+                            div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
+                                img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
+                   ),
+                   tabPanel("Litología nivel 2",
+                            info_litologia_ui,
+                            withSpinner(plotOutput("Litologia2"), type = 4, color = "#2c7a7b"),
+                            br(),
+                            info2_litologia_ui,
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                uiOutput("textolitologia2")),
+                            br(),
+                            div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                                h4("Descargar capas"),
+                                selectInput("formato_descarga_litologia_n2", "Formato de descarga:",
+                                            choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
+                                downloadButton("desc_litologia_n2", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_litologia_n2_recortada", "Descargar capa del municipio")),
+                            br(),
+                            nota_litologia_ui,
+                            div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
+                                img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
                    )
                  )
         )
+        
       )
     )
   )
 )
+
 
 
 
@@ -649,7 +728,7 @@ server <- function(input, output, session) {
       ),
       Uso_n2 = c(
         "Zonas urbanas", 
-        "Zonas industriales, comerciales y de trasnporte",
+        "Zonas industriales, comerciales y de transporte",
         "Zonas de extracción minera, vertederos y de construcción",
         "Zonas verdes artifiacles, no agrícolas",
         "Tierras de labor",
@@ -722,7 +801,7 @@ server <- function(input, output, session) {
       ),
       Uso_n2 = c(
         "Zonas urbanas", 
-        "Zonas industriales, comerciales y de trasnporte",
+        "Zonas industriales, comerciales y de transporte",
         "Zonas de extracción minera, vertederos y de construcción",
         "Zonas verdes artifiacles, no agrícolas",
         "Tierras de labor",
@@ -763,9 +842,10 @@ server <- function(input, output, session) {
   })
   
   
+  
   ###-----------------------------Capa Corine n 3--------------------------
 
-  corine_capa_completa <- reactive({
+  corine_n3_capa_completa <- reactive({
     
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
@@ -792,7 +872,7 @@ server <- function(input, output, session) {
   
   ###--------------------------Capa Corine n 3 recortada-------------------
   
-  corine_capa_recortada <- reactive({
+  corine_n3_capa_recortada <- reactive({
     
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
@@ -812,7 +892,7 @@ server <- function(input, output, session) {
   
   ###-------------------------Capa Ltologia gen --------------------------
   
-  litologia_capa_completa <- reactive({
+  litologia_n1_capa_completa <- reactive({
     
   nombre_corregido <- nombre_corregido()
   nombrecom_corregido <- nombrecom_corregido()
@@ -833,7 +913,7 @@ server <- function(input, output, session) {
   
   ###---------------------------Capa Litologia gen recortada------------------
   
-  litologia_capa_recortada <- reactive({
+  litologia_n1_capa_recortada <- reactive({
     
   nombre_corregido <- nombre_corregido()
   nombrecom_corregido <- nombrecom_corregido()
@@ -851,6 +931,99 @@ server <- function(input, output, session) {
   litologia_muni <- st_intersection(litologia_muni, municipio)
   
   })
+  
+  #-------------------------------Descarga de capas--------------------------
+  
+  ##---------------------- Función genérica de descarga ----------------------
+  
+  crear_handler_descarga <- function(nombre_base, obtener_capa_sf, formato_input) {
+    downloadHandler(
+      filename = function() {
+        formato <- formato_input()
+        ext <- switch(formato,
+                      "geojson" = ".geojson",
+                      "shp" = ".zip",
+                      "gpkg" = ".gpkg")
+        paste0(nombre_base(), ext)
+      },
+      content = function(file) {
+        capa_sf <- obtener_capa_sf()
+        formato <- formato_input()
+        
+        if (formato == "geojson") {
+          sf::st_write(capa_sf, file, driver = "GeoJSON", delete_dsn = TRUE)
+        } else if (formato == "gpkg") {
+          sf::st_write(capa_sf, file, driver = "GPKG", delete_dsn = TRUE)
+        } else if (formato == "shp") {
+          shp_dir <- file.path(tempdir(), "shapefile_dir")
+          dir.create(shp_dir, showWarnings = FALSE)
+          
+          shp_path <- file.path(shp_dir, paste0(nombre_base(), ".shp"))
+          sf::st_write(capa_sf, shp_path, driver = "ESRI Shapefile", delete_layer = TRUE)
+          
+          shp_files <- list.files(shp_dir, full.names = TRUE)
+          zip::zip(zipfile = file, files = shp_files, mode = "cherry-pick")
+        }
+      }
+    )
+  }
+  
+  ##---------------------- Descargas Corine Nivel 1 --------------------------
+  
+  output$desc_corine_n1 <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n1_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n1_capa_completa,
+    formato_input = reactive(input$formato_descarga_corine_n1)
+  )
+  
+  output$desc_corine_n1_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n1_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n1_capa_recortada,
+    formato_input = reactive(input$formato_descarga_corine_n1)
+  )
+  
+  ##---------------------- Descargas Corine Nivel 2 --------------------------
+  
+  output$desc_corine_n2 <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n2_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n2_capa_completa,
+    formato_input = reactive(input$formato_descarga_corine_n2)
+  )
+  
+  output$desc_corine_n2_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n2_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n2_capa_recortada,
+    formato_input = reactive(input$formato_descarga_corine_n2)
+  )
+  
+  ##---------------------- Descargas Corine Nivel 3 --------------------------
+  
+  output$desc_corine_n3 <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n3_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n3_capa_completa,
+    formato_input = reactive(input$formato_descarga_corine_n3)
+  )
+  
+  output$desc_corine_n3_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_corine_n3_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = corine_n3_capa_recortada,
+    formato_input = reactive(input$formato_descarga_corine_n3)
+  )
+  
+  ##---------------------- Descargas Litología Nivel 1 -----------------------
+  
+  output$desc_litologia_n1 <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_litologia_n1_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = litologia_n1_capa_completa,
+    formato_input = reactive(input$formato_descarga_litologia_n1)
+  )
+  
+  output$desc_litologia_n1_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_litologia_n1_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = litologia_n1_capa_recortada,  # corregido typo aquí
+    formato_input = reactive(input$formato_descarga_litologia_n1)
+  )
+  
   
   #---------------------------------Outputs-----------------------------------
   
@@ -901,6 +1074,50 @@ server <- function(input, output, session) {
     print(p)
   }, bg = "transparent")
   
+  ##----------------------------Grafico Corine nivel 1---------------------
+  
+  output$barras_corine_1 <- renderPlot({
+    validar_municipio()
+    
+    corine_muni <- corine_n1_capa_recortada()
+    corine_muni$area <- st_area(corine_muni)
+    
+    uso_summary <- corine_muni |> 
+      select(Uso_n1, color_n1, area) |> 
+      group_by(Uso_n1, color_n1) |> 
+      summarise(area = sum(area), .groups = "drop")
+    
+    total_area <- sum(uso_summary$area)
+    uso_summary$porcentaje <- as.numeric((uso_summary$area / total_area) * 100)
+    
+
+    uso_top10 <- uso_summary |> 
+      arrange(desc(porcentaje)) |> 
+      slice(1:5)
+    
+    
+    uso_top10$Uso_envuelto <- str_wrap(uso_top10$Uso_n1, width = 40) 
+    
+    
+    ggplot(uso_top10, aes(x = reorder(Uso_envuelto, porcentaje), y = porcentaje, fill = Uso_envuelto)) +
+      geom_col() +
+      scale_fill_manual(values = setNames(uso_top10$color_n1, uso_top10$Uso_envuelto)) +
+      labs(
+        title = paste("Distribución de usos del suelo (Nivel 1) en el municipio de", input$municipio),
+        x = "Uso del suelo",
+        y = as.character("Porcentaje (%)")
+      ) +
+      theme_minimal(base_size = 13) +
+      coord_flip(ylim = c(0, 100)) + 
+      theme(
+        legend.position = "none",
+        axis.text.y = element_text(size = 11)
+      )
+  })
+  
+  
+  
+  
   ##------------------------------Texto Corine nivel 1----------------------
   
   output$textocorine1 <- renderUI({
@@ -934,6 +1151,7 @@ server <- function(input, output, session) {
       paste(textos_top, collapse = "<br>")
     ))
   })
+  
   
   ##------------------------------Mapa Corine nivel 2------------------------
   
@@ -981,6 +1199,78 @@ server <- function(input, output, session) {
     
     print(p)
   }, bg = "transparent")
+  
+  
+  ##----------------------------Grafico Corine nivel 2---------------------
+  
+  output$barras_corine_2 <- renderPlot({
+    validar_municipio()
+    
+    corine_muni <- corine_n2_capa_recortada()
+    corine_muni$area <- st_area(corine_muni)
+    
+    uso_summary <- corine_muni |> 
+      select(Uso_n2, color_n2, area) |> 
+      group_by(Uso_n2, color_n2) |> 
+      summarise(area = sum(area), .groups = "drop")
+    
+    total_area <- sum(uso_summary$area)
+    uso_summary$porcentaje <- as.numeric((uso_summary$area / total_area) * 100)
+    
+    
+    # Limitar a los 10 usos principales
+    uso_top10 <- uso_summary |> 
+      arrange(desc(porcentaje)) |> 
+      slice(1:15)
+    
+    uso_top10$Uso_envuelto <- str_wrap(uso_top10$Uso_n2, width = 40) 
+    
+    ggplot(uso_top10, aes(x = reorder(Uso_envuelto, porcentaje), y = porcentaje, fill = Uso_envuelto)) +
+      geom_col() +
+      scale_fill_manual(values = setNames(uso_top10$color_n2, uso_top10$Uso_envuelto)) +
+      labs(
+        title = paste("Distribución de usos del suelo (Nivel 2) en el municipio de", input$municipio),
+        x = "Uso del suelo",
+        y = as.character("Porcentaje (%)")
+      ) +
+      theme_minimal(base_size = 13) +
+      coord_flip(ylim = c(0, 100)) + 
+      theme(
+        legend.position = "none",
+        axis.text.y = element_text(size = 11)
+      )
+  })
+  
+  ##----------------------------------INTENTO-------------------------------
+  # Generar el vector de usos únicos del municipio
+  usos_municipio <- reactive({
+    validar_municipio()
+    corine_muni <- corine_n2_capa_completa()
+    sort(unique(corine_muni$Uso_n2))  
+  })
+  
+  # Renderizar el UI del selectInput solo si hay datos
+  output$selector_uso_corine_2 <- renderUI({
+    req(usos_municipio())  # Espera a que haya datos
+    selectInput("uso_seleccionado",
+                "Selecciona un uso del suelo para ver su explicación:",
+                choices = c("", usos_municipio()),  # añade opción vacía
+                selected = "")
+    
+  })
+  
+  # Mostrar la explicación del uso seleccionado
+  output$explicacion_uso_2 <- renderText({
+    req(input$uso_seleccionado)
+    explicacion <- dicc_corine_2$Explicacion[dicc_corine_2$Uso == input$uso_seleccionado]
+    
+    if (length(explicacion) == 0) {
+      "No hay descripción disponible para este uso."
+    } else {
+      explicacion
+    }
+  })
+  
   
   ##------------------------------------Texto Corine nivel 2------------------
   
@@ -1050,17 +1340,59 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = corine_capa_completa(), aes(fill = Uso), color = NA) +
+      geom_sf(data = corine_n3_capa_completa(), aes(fill = Uso), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Usos del suelo nivel 3:",
-                        values = setNames(corine_capa_completa()$color,
-                                          corine_capa_completa()$Uso)) +
+                        values = setNames(corine_n3_capa_completa()$color,
+                                          corine_n3_capa_completa()$Uso)) +
       ggtitle(paste("Mapa de usos del suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
       
     print(p)
   }, bg = "transparent")
+  
+  ##----------------------------Grafico Corine nivel 3---------------------
+  
+  output$barras_corine_3 <- renderPlot({
+    validar_municipio()
+    
+    corine_muni <- corine_n3_capa_recortada()
+    corine_muni$area <- st_area(corine_muni)
+    
+    uso_summary <- corine_muni |> 
+      select(Uso, color, area) |> 
+      group_by(Uso, color) |> 
+      summarise(area = sum(area), .groups = "drop")
+    
+    total_area <- sum(uso_summary$area)
+    uso_summary$porcentaje <- as.numeric((uso_summary$area / total_area) * 100)
+    
+    
+
+    uso_top10 <- uso_summary |> 
+      arrange(desc(porcentaje)) |> 
+      slice(1:50)
+    
+    uso_top10$Uso_envuelto <- str_wrap(uso_top10$Uso, width = 40) 
+    
+    
+    ggplot(uso_top10, aes(x = reorder(Uso_envuelto, porcentaje), y = porcentaje, fill = Uso_envuelto)) +
+      geom_col() +
+      scale_fill_manual(values = setNames(uso_top10$color, uso_top10$Uso_envuelto)) +
+      labs(
+        title = paste("Distribución de usos del suelo (Nivel 3) en el municipio de", input$municipio),
+        x = "Uso del suelo",
+        y = as.character("Porcentaje (%)")
+      ) +
+      theme_minimal(base_size = 13) +
+      coord_flip(ylim = c(0, 100)) + 
+      theme(
+        legend.position = "none",
+        axis.text.y = element_text(size = 11)
+      )
+  })
+  
   
   ##-------------------------Texto Corine nivel 3---------------------------
   
@@ -1068,27 +1400,38 @@ server <- function(input, output, session) {
     
     validar_municipio()
     
-    corine_muni <- corine_capa_recortada()
+    corine_muni <- corine_n3_capa_recortada()
     
     corine_muni$area <- st_area(corine_muni)
     
     uso_summary <- corine_muni |> select(Uso, color, area)
-    
     
     total_area <- sum(uso_summary$area)
     uso_summary$porcentaje <- (uso_summary$area / total_area) * 100
     
     top_usos <- uso_summary |> arrange(desc(porcentaje)) |> slice(1:3)
     
-    # Texto con fondo de color
-    textos_top <- paste0(
-      seq_len(nrow(top_usos)), 
-      '. <span style="background-color:', top_usos$color, 
-      '; color: black; padding: 4px 8px; border-radius: 6px;">',
-      top_usos$Uso, 
-      '</span> (', 
-      round(top_usos$porcentaje, 2), '%)'
-    )
+    # Texto con fondo de color, ajustando color de texto si el fondo es oscuro
+    textos_top <- sapply(seq_len(nrow(top_usos)), function(i) {
+      uso <- top_usos$Uso[i]
+      color_fondo <- top_usos$color[i]
+      
+      # Verificamos si el uso corresponde al que tiene fondo oscuro
+      color_texto <- if (uso == "Zonas quemadas") {  
+        "white"
+      } else {
+        "black"
+      }
+      
+      paste0(
+        i, '. <span style="background-color:', color_fondo, 
+        '; color:', color_texto, 
+        '; padding: 4px 8px; border-radius: 6px;">',
+        uso, 
+        '</span> (', 
+        round(top_usos$porcentaje[i], 2), '%)'
+      )
+    })
     
     HTML(paste0(
       "<b>En el municipio de ", input$municipio, ", los principales usos del suelo son:</b><br><br>",
@@ -1096,8 +1439,9 @@ server <- function(input, output, session) {
     ))
   })
   
-  ##-----------------------------Mapa Litologia General----------------------- 
-  output$Litologia <- renderPlot({
+  
+  ##-----------------------------Mapa Litologia general----------------------- 
+  output$Litologia1 <- renderPlot({
     
     validar_municipio()
     
@@ -1121,36 +1465,37 @@ server <- function(input, output, session) {
     # 3a) Batimetría (solo si existe)
     if (add_bath) {
       p <- p +
+        geom_sf(data = visible_area(), fill = "gray80") +
         geom_sf(data = hypsobath_crop,
                 aes(fill = as.factor(val_inf)),
                 colour = NA) +
         scale_fill_manual(
           values = bath_tints(length(levels))) +
-        guides(fill = "none") + # <-- Aquí quitas la leyenda 
+        guides(fill = "none") + 
         ggnewscale::new_scale_fill()               # reiniciar escala fill
     }
     
     p <- p +
-      geom_sf(data = litologia_capa_completa(), aes(fill = LITOLOGIA), color = NA) +
+      
+      geom_sf(data = litologia_n1_capa_completa(), aes(fill = LITOLOGIA), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Litología", 
-                        values = setNames(litologia_capa_completa()$color, 
-                                          litologia_capa_completa()$litologia)) +
+                        values = setNames(litologia_n1_capa_completa()$color, 
+                                          litologia_n1_capa_completa()$litologia)) +
       ggtitle(paste("Mapa de litologias del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
     print(p)
   }, bg = "transparent")
   
-  ##-------------------------Texto de litologia general-----------------
+  ##-----------------------------Texto litología nivel 1 -------------------
   
-  output$textolitologia <- renderUI({
+  output$textolitologia1 <- renderUI({
     
     validar_municipio()
     
-    
-    litologia_muni <- litologia_capa_recortada()
+    litologia_muni <- litologia_n1_capa_recortada()
     
     litologia_muni$area <- st_area(litologia_muni)
     
@@ -1165,7 +1510,6 @@ server <- function(input, output, session) {
       filter(LITOLOGIA != "Sin datos") |>     # <- Aquí se descarta
       arrange(desc(porcentaje)) |>
       slice(1:3)
-    
     
     # Texto con fondo de color
     # Texto con fondo de color, ajustando color de texto si el fondo es negro
@@ -1196,6 +1540,49 @@ server <- function(input, output, session) {
       paste(textos_top, collapse = "<br>")
     ))
   })
+  
+  ##----------------------------Grafico Litología nivel 1---------------------
+  
+  output$barras_litologia_1 <- renderPlot({
+    validar_municipio()
+    
+    litologia_muni <- litologia_n1_capa_recortada()
+    litologia_muni$area <- st_area(litologia_muni)
+    
+    lit_summary <- litologia_muni |> 
+      select(LITOLOGIA, color, area) |> 
+      group_by(LITOLOGIA, color) |> 
+      summarise(area = sum(area), .groups = "drop")
+    
+    total_area <- sum(lit_summary$area)
+    lit_summary$porcentaje <- as.numeric((lit_summary$area / total_area) * 100)
+    
+    
+    # Limitar a los 10 usos principales
+    lit_top10 <- lit_summary |> 
+      arrange(desc(porcentaje)) |> 
+      slice(1:50)
+    
+    lit_top10$lit_envuelto <- str_wrap(lit_top10$LITOLOGIA, width = 40) 
+    
+    ggplot(lit_top10, aes(x = reorder(lit_envuelto, porcentaje), y = porcentaje, fill = lit_envuelto)) +
+      geom_col() +
+      scale_fill_manual(values = setNames(lit_top10$color, lit_top10$lit_envuelto)) +
+      labs(
+        title = paste("Distribución de litologías en el municipio de", input$municipio),
+        x = "Litología",
+        y = as.character("Porcentaje (%)")
+      ) +
+      theme_minimal(base_size = 13) +
+      coord_flip(ylim = c(0, 100)) + 
+      theme(
+        legend.position = "none",
+        axis.text.y = element_text(size = 11)
+      )
+  })
+  
+  
+  
   
 }
 # Run the application 
