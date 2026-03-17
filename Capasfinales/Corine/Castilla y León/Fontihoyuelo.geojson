@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Fontihoyuelo",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3078754.571389999706298, 2245702.611209999304265 ], [ 3085027.194010000210255, 2245702.611209999304265 ], [ 3085027.194010000210255, 2238777.25979 ], [ 3078754.571389999706298, 2238777.25979 ], [ 3078754.571389999706298, 2245702.611209999304265 ] ] ] } }
+]
+}

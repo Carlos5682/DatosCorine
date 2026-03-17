@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Padilla_de_Abajo",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3153528.42919500079006, 2258863.862705000676215 ], [ 3161413.500304999761283, 2258863.862705000676215 ], [ 3161413.500304999761283, 2249343.004995000548661 ], [ 3153528.42919500079006, 2249343.004995000548661 ], [ 3153528.42919500079006, 2258863.862705000676215 ] ] ] } }
+]
+}

@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Pozo_de_Urama",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3093831.023700000252575, 2253525.176399998832494 ], [ 3099351.241400000173599, 2253525.176399998832494 ], [ 3099351.241400000173599, 2246700.628800000529736 ], [ 3093831.023700000252575, 2246700.628800000529736 ], [ 3093831.023700000252575, 2253525.176399998832494 ] ] ] } }
+]
+}

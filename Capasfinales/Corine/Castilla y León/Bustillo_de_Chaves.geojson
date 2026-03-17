@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Bustillo_de_Chaves",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3035" } },
+"features": [
+{ "type": "Feature", "properties": { "CODE_18": "211", "Uso": "Tierras de labor en secano", "color": "#FFFFA8" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 3071861.242410000879318, 2242066.972489999141544 ], [ 3080951.545190000440925, 2242066.972489999141544 ], [ 3080951.545190000440925, 2235306.955210000742227 ], [ 3071861.242410000879318, 2235306.955210000742227 ], [ 3071861.242410000879318, 2242066.972489999141544 ] ] ] } }
+]
+}
