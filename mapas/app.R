@@ -17,6 +17,38 @@ CCAA_sf <- st_transform(CCAA_sf, 3035)
 municipios <- esp_get_munic(moveCAN = FALSE)
 municipios <- st_transform(municipios, 3035)
 
+urls_pendientes <- list(
+  "Alhama_de_Granada" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBcKwdrdiQuRIl-Uw5dy24lAclaHae3RJn6IP8sJ7lBf4A?e=sTShem&download=1",
+  "Almería" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQADmMEDe0NjQbUF8yk0n83qAVDaKklMOB9hr1IWF_dFbtk?e=2m7laO&download=1",
+  "Andújar" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBL3MH6mY0HSYKmx6xaFvuHAUuFCGo9bcz6z0iesPl89aM?e=vuZckg&download=1",
+  "Baza" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBIdP3xRayQQKV0rnN4minWAS4hN_EGYOWMgwpsxNqj-ak?e=d0wzZj&download=1",
+  "Córdoba" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQDkNwZPjAn2S7HXXzKhJeA6ATD_5vCzmHbyAYKCqHhF_N4?e=7WMS8N&download=1", 
+  "Espial" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQA5i8hLHhsgSKopHTn5a-hjASHd_UJy3if_RXd9shnacQE?e=mau3rU&download=1", 
+  "Hornachuelos" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQB0SIAZmTkYRqKU6sMOY2DdATJZSltssRKxKFB1MFLGn-4?e=jTnRg9&download=1", 
+  "Jerez_de_la_Frontera" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBpMoNzFAGPSJe5T0oPJKEmATqiRPi2bjHm3nCdXlj46b4?e=RFFKSz&download=1", 
+  "Montoro" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQB2efd8jGa8Tr41BG6O4Ql1AXdOyzGVyXzrxMK4rxrJfJo?e=vsXQ8B&download=1", 
+  "Santiago-Pontones" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBVzxvzOxG1Ra7DwxPVctAIAaJ4pI564ya7iSvPcCSBs1U?e=KLB9hy&download=1",
+  "Segura_de_la_Sierra" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCZ3-xhA5xDQLuXCoTRM3aiAUzY62vZKOwADkO9f6cCxbg?e=V63gWA&download=1",
+  "Villaviciosa_de_Córdoba" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCN0QL8fdAfT7drXedvDYOSAVj72eCzgAONG6uncb5C_C0?e=jNODbb&download=1",
+  "Albarracín" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQChBdkKMundQ5zLGGIumfBLAYzIvy6jU8G3rUn1faWuaog?e=cIRGUf&download=1",
+  "Sabiñánigo" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQAOvY-dqVo7Tp4h2ia5joA0AZ4kBnoSJTFhrBv_OQPBYR8?e=3ubrUx&download=1",
+  "Zaragoza" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQA2qnNIm9EuSJHEc7xrwpi-AWWv0-3bvoLPFk6H62YCs7I?e=lKZZgh&download=1",
+  "Jaca" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBjXyZ35R7bS5MBlHYYVbsDAekWmBCFiOpwIZTNZ06Rx8c?e=uhamGg&download=1",
+  "Tineo" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBe878IrmihQY3W3Btb6S42AQmBhNynMpRl5yaCaFRE30o?e=0vZLeL&download=1",
+  "Alcaraz" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBLDWX3YULCQZENJc9otK50ATwzqGExzVxjjZJYApej9s8?e=FWlmRw&download=1",
+  "Almodóvar_del_Campo" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCwXoHAddNcSYycvoNUmLapAQjEjeEOk-s491Bys1jSxKo?e=genT0w&download=1",
+  "Huete" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQAVmtTGMMo4Q7A-W0xO_svkAYAjdusDtHeEu4K-T0dQygI?e=UVYzLe&download=1",
+  "Cuenca" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQARrCeHCdkcRbarGd2NFRoEAaZ7HyXgU-o4JpDoK5RVtks?e=WbzzKv&download=1",
+  "Soria" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQApIeXA1xDORJmiCXo1qurAAZLnM9RwvWtVwZhI4muuTdI?e=ioGt6E&download=1",
+  "Requena" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCNnOE3Uk50RLbD6Fq2RPkvAYHDGm1YbCnXaC6XLdQBNks?e=xidXOF&download=1",
+  "Alcántara" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQA3H3prGtWXTraRIYTxAC27Ac-ZKHoDcjtAbQ3oCfFJOx0?e=ecA5r4&download=1",
+  "Badajoz" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQAehUB4DqnXQJHkGloGwZOWAZ8IN_VwoPcXbERfqCU3T7c?e=sosyMd&download=1",
+  "Cáceres" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQDLGxdC0sraT4AseS8eB5l1AXsR34Iqnh3kiTlnszs-RgY?e=SD5tq6&download=1",
+  "Trujillo" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQBjXTpzKxzeSpJ9_KJvTG0AAWROu9TnRYTsd0FaZ4RnBrk?e=t2X16f&download=1", 
+  "Moratalla" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCBOEE3mJiKSJdqjk8R_Lw2AYfFotKBQV_PaTW90wfX_Q0?e=UzuyXo&download=1",
+  "Lorca" = "https://universidaddealcala-my.sharepoint.com/:u:/g/personal/carlos_barreno_edu_uah_es/IQCFlgZVDkHFQYI9yKzTOsSCAbvRRKZU_8SL2Yj96m0gj_Y?e=7rge4F&download=1"
+)
+
 
 hypsobath <- esp_get_hypsobath() #Obtenemos la hipsobatimetria
 
@@ -84,13 +116,13 @@ info2_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Interpretación del mapa"),
-  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de usos del suelo en el municipio seleccionado, además de los 3 principales usos junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de usos del suelo en el municipio seleccionado, además de los principales usos junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
 
 info3_corine_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Diccionario de usos"),
-  p("Para facilitar la interpretación, se puede seleccionar uno de los usos presentes en el mapa para obtener su respectiva descripción"),
+  p("Para facilitar la interpretación, se puede seleccionar uno de los usos presentes en el mapa para obtener su respectiva descripción."),
 )
 
 nota_corine_ui <- div(
@@ -167,13 +199,12 @@ info2_suelos_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Interpretación del mapa"),
-  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de los tipos de suelo en el municipio seleccionado, además de los 3 principales suelos junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de los tipos de suelo en el municipio seleccionado, además de los principales suelos con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
 
 info3_suelos_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
-  h4("Diccionario de usos"),
-  p("Para facilitar la interpretación, se puede seleccionar uno de los suelos presentes en el mapa para obtener su respectiva descripción"),
+  h4("Diccionario de usos")
 )
 
 nota_suelos_ui <- div(
@@ -207,17 +238,17 @@ nota_suelos_ui <- div(
 info_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
-  h4("Información general sobre el mapa de litologías"),
-  p("Este mapa ha sido elaborado a partir del Mapa Litológico de la Península Ibérica, Baleares y Canarias a escala 1:1.000.000."),
-  p("Fue desarrollado por el Instituto Geológico y Minero de España (IGME), a partir del Mapa Geológico de la Península Ibérica, Baleares y Canarias editado en 1995."),
+  h4("Información general sobre la geología y litología"),
+  p("Este mapa ha sido elaborado a partir del Mapa Geológico de la Península Ibérica, Baleares y Canarias a escala 1:1.000.000."),
+  p("Fue desarrollado por el Instituto Geológico y Minero de España (IGME) en 1995."),
   
   br(),
   
-  h4("Presentación y niveles de clasificación"),
-  p("El mapa ofrece dos niveles jerárquicos de clasificación:"),
+  h4("Presentación y variables analizadas"),
+  p("El mapa ofrece dos variables de clasificación:"),
   tags$ul(
-    tags$li(strong("Nivel 1:"), " corresponde a categorías generales de litologías, basadas directamente en la columna ", code("LITOLOGIA"), " de los datos originales."),
-    tags$li(strong("Nivel 2:"), " proporciona una clasificación más detallada, utilizando la columna ", code("DLO"), ".")
+    tags$li(strong("Litología"), " corresponde a categorías generales de litologías, basadas directamente en la columna ", code("LITOLOGIA"), " de los datos originales."),
+    tags$li(strong("Geología"), " corresponde a unidades geologícas, utilizando la columna ", code("DLO"), ".")
   ),
   p("Ambos niveles provienen directamente de la estructura de los datos proporcionados por el IGME, sin modificaciones o reinterpretaciones propias. Esta jerarquía facilita distintos enfoques de análisis, desde una visión general hasta un estudio más detallado."),
   
@@ -239,13 +270,18 @@ info2_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   h4("Interpretación del mapa"),
   p("Para facilitar la interpretación, se muestra un gráfico con la distribución de las litologías en el municipio seleccionado, además de las principales litologías junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+
+info3_litologia_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  h4("Interpretación del mapa"),
+  p("Para facilitar la interpretación, se muestra un gráfico con la distribución de las geologías en el municipio seleccionado, además de las principales litologías junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
   
 
 nota_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   p(em("Nota:")),
   tags$ul(
-    tags$li("La leyenda del mapa corresponde a las litologias visibles en el municipio seleccionado y sus alrededores."),
+    tags$li("La leyenda del mapa corresponde a las litologias/geologías visibles en el municipio seleccionado y sus alrededores."),
     tags$li("Los porcentajes mostrados debajo del mapa hacen referencia exclusivamente al área del municipio."),
     tags$li("El sistema de coordenadas utilizado es ETRS89 / LAEA Europe (EPSG:3035)."),
     tags$li(
@@ -272,12 +308,11 @@ info_enp_ui <- div(
   br(),
   
   h4("Presentación y niveles de clasificación"),
-  p("El mapa ofrece dos niveles de clasificación:"),
+  p("El mapa ofrece un nivele de clasificación:"),
   tags$ul(
-    tags$li(strong("Nivel 1:"), " corresponde a todas las figuras de protección en España, basadas directamente en la columna ", code("DESIG_ABBR"), " de los datos originales."),
-    tags$li(strong("Nivel 2:"), " proporciona una clasificación más detallada, utilizando la columna ", code("DESIG_ABBR"), "y agrupandolo según la clasificacion de los Espacios Protegidos, según la Ley 42/2007, de 13 de diciembre del Patrimonio Natural y de la Biodiversidad.")
+    tags$li(strong("Nivel 1:"), " corresponde a todas las figuras de protección en España, basadas directamente en la columna ", code("DESIG_ABBR"), " de los datos originales.")
   ),
-  p("Ambos niveles provienen directamente de la estructura de los datos proporcionados por el MITECO, sin modificaciones o reinterpretaciones propias. Esta jerarquía facilita distintos enfoques de análisis, desde una visión general hasta un estudio más detallado."),
+  p("El nivel proviene directamente de la estructura de los datos proporcionados por el MITECO, sin modificaciones o reinterpretaciones propias."),
   
   br(),
   
@@ -317,6 +352,77 @@ nota_enp_ui <- div(
     )
   )
 )
+
+##---------------------------------Mensaje MDT----------------------------------------
+
+info_topografia_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bg); border-radius: 5px; margin-bottom: 1em;",
+  
+  h4("Información general sobre la Topografía"),
+  p("La topografía describe las características del relieve del terreno, incluyendo su inclinación o pendiente. Esta variable es fundamental para comprender la dinámica del paisaje y los procesos naturales que tienen lugar en él."),
+  p("En esta aplicación, la información topográfica se deriva de modelos digitales del terreno (MDT), que permiten representar la superficie terrestre de forma continua y analizar sus propiedades geomorfológicas con alta precisión."),
+  p("A partir de estos modelos se calcula la pendiente, una variable clave para caracterizar el comportamiento del terreno frente a factores como la escorrentía, la erosión o la estabilidad del suelo."),
+  
+  br(),
+  
+  h4("Variable analizada"),
+  p("La topografía se presenta mediante la siguiente variable:"),
+  tags$ul(
+    tags$li(
+      strong("Pendiente:"),
+      " Representa el grado de inclinación del terreno. Se expresa generalmente en porcentaje o grados y permite identificar zonas llanas, suaves o con fuertes desniveles. Es un factor clave en procesos como la erosión, la estabilidad del terreno o la aptitud para usos agrícolas y urbanísticos."
+    )
+  ),
+  p("El análisis de la pendiente permite interpretar el relieve y comprender mejor su influencia sobre otros elementos del medio físico."),
+  
+  br(),
+  
+  h4("Importancia de la topografía"),
+  p("La topografía es un factor determinante en numerosos procesos ambientales. La pendiente condiciona la velocidad del agua superficial, el riesgo de erosión y la estabilidad del terreno. 
+Estas variables son esenciales para la planificación territorial, la gestión forestal, la prevención de riesgos naturales y el diseño de infraestructuras.
+Además, juegan un papel clave en la evaluación del impacto del cambio climático, ya que afectan a la disponibilidad de agua y a la resiliencia de los ecosistemas."),
+  
+  br(),
+  
+  h4("Fuente de los datos"),
+  p("Los datos topográficos utilizados en esta aplicación proceden de modelos digitales del terreno de alta resolución, generados a partir de técnicas de teledetección y cartografía oficial. Estos modelos permiten obtener información precisa y actualizada sobre la superficie del territorio."),
+  
+  br(),
+  
+  h4("Tiempo de carga"),
+  p("La generación de los datos puede tardar unos segundos, especialmente en municipios de gran extensión, por lo que es normal que haya una breve espera antes de visualizar la información."),
+  
+  br(),
+  
+  h4("Mapa")
+)
+
+info2_topografia_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  
+  h4("Interpretación del mapa"),
+  p("Para facilitar la interpretación, se muestran un gráfico con la distribución de la pendiente en el municipio seleccionado, junto con su respectivo porcentaje. Esta información permite obtener una visión general rápida de cómo se distribuye el territorio."))
+
+
+nota_pendiente_ui <- div(
+  style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+  p(em("Nota:")),
+  tags$ul(
+    tags$li("La leyenda del mapa corresponde a las clases de pendiente visibles en el municipio seleccionado y sus alrededores."),
+    tags$li("Los porcentajes mostrados debajo del mapa hacen referencia exclusivamente al área del municipio."),
+    tags$li("El sistema de coordenadas utilizado es ETRS89 / LAEA Europe (EPSG:3035)."),
+    tags$li(
+      "El procesamiento y visualización del mapa se ha realizado en ",
+      strong("RStudio"),
+      " utilizando funciones de los paquetes ",
+      code("sf"), ", ",
+      code("dplyr"), ", ",
+      code("ggplot2"), " y ",
+      code("mapSpain"), "."
+    )
+  )
+)
+
 
 #-------------------------------------Diccionarios------------------------------------
 
@@ -716,7 +822,7 @@ ui <- page_sidebar(
         h2("Bienvenido a CartoAmbiente"),
         p("CartoAmbiente es un proyecto diseñado para generar mapas ambientales a nivel municipal en toda España. Su objetivo es facilitar el acceso a la cartografía ambiental de forma intuitiva y accesible para todo tipo de usuarios."),
         p("Este proyecto ha sido desarrollado en el marco de un Trabajo de Fin de Grado del Grado en Ciencias Ambientales, en la Universidad de Alcalá de Henares."),
-        p("Para cualquier consulta o sugerencia, puedes escribir a: ", a("correo@ejemplo.com", href = "mailto:correo@ejemplo.com")),
+        p("Para cualquier consulta o sugerencia, puedes escribir a: ", a("carlos.barreno@edu.uah.es", href = "mailto:correo@ejemplo.com")),
         p("Selecciona una comunidad autónoma y un municipio para comenzar a explorar. 🔍")
       )
     ),
@@ -819,6 +925,10 @@ ui <- page_sidebar(
                  tabsetPanel(
                    tabPanel("Tipo de suelo (orden)",
                             info_suelos_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_suelos_n1")
+                            ),
                             withSpinner(plotOutput("Suelos1"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_suelos_ui,
@@ -911,7 +1021,7 @@ ui <- page_sidebar(
                             info_litologia_ui,
                             withSpinner(plotOutput("Geologia"), type = 4, color = "#2c7a7b"),
                             br(),
-                            info2_litologia_ui,
+                            info3_litologia_ui,
                             div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
                                 withSpinner(plotOutput("barras_geologia"),
                                             type = 4,
@@ -959,25 +1069,35 @@ ui <- page_sidebar(
                             nota_enp_ui,
                             div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                                 img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
-                   ),
-                   tabPanel("Figuras de Protección clasificadas",
-                            info_enp_ui,
-                            withSpinner(plotOutput("Enp2"), type = 4, color = "#2c7a7b"),
+                   )
+                 )
+                 
+        ),
+        
+        ####------------------------------ MDT ---------------------------
+        tabPanel("Topografía",
+                 tabsetPanel(
+                   tabPanel("Pendientes",
+                            info_topografia_ui,
+                            withSpinner(plotOutput("Pendiente"), 
+                                        type = 4, 
+                                        color = "#2c7a7b"),
                             br(),
-                            info2_enp_ui,
+                            info2_topografia_ui,
                             div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
-                                withSpinner(plotOutput("barras_enp_2"),
+                                withSpinner(plotOutput("barras_pendiente"),
                                             type = 4,
                                             color = "#2c7a7b")),
+                            
                             br(),
                             div(style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
                                 h4("Descargar capas"),
-                                selectInput("formato_descarga_enp_n2", "Formato de descarga:",
+                                selectInput("formato_descarga_pendiente", "Formato de descarga:",
                                             choices = c("GeoJSON" = "geojson", "SHP" = "shp", "GeoPackage" = "gpkg")),
-                                downloadButton("desc_enp_n2", "Descargar capa del municipio y sus alrededores"),
-                                downloadButton("desc_enp_n2_recortada", "Descargar capa del municipio")),
+                                downloadButton("desc_pendiente", "Descargar capa del municipio y sus alrededores"),
+                                downloadButton("desc_pendiente_recortada", "Descargar capa del municipio")),
                             br(),
-                            nota_enp_ui,
+                            nota_pendiente_ui,
                             div(style = "padding: 2em; text-align: center; background-color: var(--bs-body-bg);",
                                 img(src = "Logoshiny.png", style = "max-width: 200px; margin-bottom: 1em;"))
                    )
@@ -1487,6 +1607,41 @@ server <- function(input, output, session) {
     return(suelos_muni_recorte)
     
   })
+  
+  output$selector_categoria_suelos_n1 <- renderUI({
+    
+    capa <- suelos_n1_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$orden))
+    
+    selectInput(
+      "categoria_suelos_n1",
+      "Selecciona una o varias categorías de suelo:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  suelos_n1_filtrada <- reactive({
+    
+    capa <- suelos_n1_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_suelos_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(orden %in% categoria)
+  })
+  
   ###--------------------------Capa Suelos n 1 recortada-------------------
   
   suelos_n1_capa_recortada <- reactive({
@@ -1508,6 +1663,22 @@ server <- function(input, output, session) {
 
   })
   
+  suelos_n1_filtrada_recortada <- reactive({
+    
+    capa <- suelos_n1_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_suelos_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(orden %in% categoria)
+  })
   
   
   ###-----------------------------Capa Suelos n 2--------------------------
@@ -1685,48 +1856,6 @@ server <- function(input, output, session) {
     
   })
   
-  ###-------------------------Capa Enp n2 --------------------------
-  
-  enp_n2_capa_completa <- reactive({
-    
-    nombre_corregido <- nombre_corregido()
-    nombrecom_corregido <- nombrecom_corregido()
-    
-    url_geojson <- paste0("https://github.com/Carlos5682/DatosENP/raw/refs/heads/main/Capasfinales/Enpagrupado/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
-    
-    enp_muni <- tryCatch({
-      st_read(url_geojson, quiet = TRUE)
-    }, error = function(e) {
-      NULL
-    })
-    
-    visible_area <- visible_area()
-    enp_muni <- st_intersection(enp_muni, visible_area)
-    
-  })
-  
-  ###---------------------------Capa ENP n2 recortada------------------
-  
-  enp_n2_capa_recortada <- reactive({
-    
-    nombre_corregido <- nombre_corregido()
-    nombrecom_corregido <- nombrecom_corregido()
-    
-    url_geojson <- paste0("https://github.com/Carlos5682/DatosENP/raw/refs/heads/main/Capasfinales/Enpagrupado/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
-    
-    enp_muni <- tryCatch({
-      st_read(url_geojson, quiet = TRUE)
-    }, error = function(e) {
-      NULL
-    })
-    
-    municipio <- municipio_sf()
-    enp_muni <- st_intersection(enp_muni, municipio)
-    
-  })
-  
   ###---------------------------Comprobar ENP ------------------
   
   hay_enp <- reactive({
@@ -1746,6 +1875,74 @@ server <- function(input, output, session) {
       ) +
       theme_void()
   }
+  
+
+  
+  ###-------------------------Capa Pendiente --------------------------
+  
+  pendiente_capa_completa <- reactive({
+    
+    nombre_corregido <- nombre_corregido()
+    nombrecom_corregido <- nombrecom_corregido()
+    
+    if(nombre_corregido %in% names (urls_pendientes)) {
+      url_geojson <- urls_pendientes[[nombre_corregido]]
+      temp <- tempfile(fileext = ".geojson")
+      
+      pendiente_muni <- tryCatch({
+        download.file(url_geojson, temp, mode = "wb")
+        st_read(temp, quiet = TRUE)
+      }, error = function(e) NULL)
+    } else {
+      
+      url_geojson <- paste0("https://github.com/Carlos5682/DatosMDT/raw/refs/heads/main/Capasfinales/Pendiente/", 
+                            nombrecom_corregido, "/", nombre_corregido, ".geojson")
+      
+      pendiente_muni <- tryCatch({
+        st_read(url_geojson, quiet = TRUE)
+      }, error = function(e) NULL)
+      
+    }
+    
+    visible_area <- visible_area()
+    pendiente_muni <- st_intersection(pendiente_muni, visible_area) 
+    pendiente_muni
+    
+  })
+  
+  ###---------------------------Capa Pendiente recortada------------------
+  
+  pendiente_capa_recortada <- reactive({
+    
+    nombre_corregido <- nombre_corregido()
+    nombrecom_corregido <- nombrecom_corregido()
+    
+    if(nombre_corregido %in% names (urls_pendientes)) {
+      url_geojson <- ulrs_pendientes[[nombre_corregido]]
+      temp <- tempfile(fileext = ".geojson")
+      
+      pendiente_muni <- tryCatch({
+        download.file(url_geojson, temp, mode = "wb")
+        st_read(temp, quiet = TRUE)
+      }, error = function(e) NULL)
+    } else {
+      
+      url_geojson <- paste0("https://github.com/Carlos5682/DatosMDT/raw/refs/heads/main/Capasfinales/Pendiente/", 
+                            nombrecom_corregido, "/", nombre_corregido, ".geojson")
+      
+      pendiente_muni <- tryCatch({
+        st_read(url_geojson, quiet = TRUE)
+      }, error = function(e) NULL)
+      
+    }
+    
+
+    
+    municipio <- municipio_sf()
+    pendiente_muni <- st_intersection(pendiente_muni, municipio)
+    
+  })
+  
   #-------------------------------Descarga de capas--------------------------
   
   ##---------------------- Función genérica de descarga ----------------------
@@ -1825,16 +2022,27 @@ server <- function(input, output, session) {
   )
   
   ##---------------------- Descargas Suelos Nivel 1 --------------------------
+
+  categoria_suelos_txt <- reactive({
+    
+    categoria <- input$categoria_suelos_n1
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
   
   output$desc_suelos_n1 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_suelos_n1_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = suelos_n1_capa_completa,
+    nombre_base = reactive(paste0("capa_suelos_n1_", categoria_suelos_txt(), "_", input$municipio)),
+    obtener_capa_sf = suelos_n1_filtrada,
     formato_input = reactive(input$formato_descarga_suelos_n1)
   )
   
   output$desc_suelos_n1_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_suelos_n1_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = suelos_n1_capa_recortada,
+    nombre_base = reactive(paste0("capa_suelos_n1_recortada_", categoria_suelos_txt(), "_", input$municipio)),
+    obtener_capa_sf = suelos_n1_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_suelos_n1)
   )
   
@@ -1879,6 +2087,33 @@ server <- function(input, output, session) {
     formato_input = reactive(input$formato_descarga_geologia)
   )
   
+  ##---------------------- Descargas Pendiente -----------------------
+  
+  output$desc_pendiente <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_pendiente_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = pendiente_capa_completa,
+    formato_input = reactive(input$formato_descarga_pendiente)
+  )
+  
+  output$desc_pendiente_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_pendiente_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = pendiente_capa_recortada,  
+    formato_input = reactive(input$formato_descarga_pendiente)
+  )
+  
+  ##---------------------- Descargas ENP -----------------------
+  
+  output$desc_enp_n1 <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_enp_n1_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = enp_n1_capa_completa,
+    formato_input = reactive(input$formato_descarga_enp_n1)
+  )
+  
+  output$desc_enp_n1_recortada <- crear_handler_descarga(
+    nombre_base = reactive(paste0("capa_enp_n1_recortada_", input$comunidad, "_", input$municipio)),
+    obtener_capa_sf = enp_n1_capa_recortada,  
+    formato_input = reactive(input$formato_descarga_enp_n1)
+  )
   
   #---------------------------------Outputs-----------------------------------
   ##---------------------------Corine------------------------------------------
@@ -1949,7 +2184,7 @@ server <- function(input, output, session) {
     
     uso_top10 <- uso_summary |> 
       arrange(desc(porcentaje)) |> 
-      slice(1:5)
+      slice(1:50)
     
     
     uso_top10$Uso_envuelto <- str_wrap(uso_top10$Uso_n1, width = 50) 
@@ -2041,7 +2276,7 @@ server <- function(input, output, session) {
     # Limitar a los 10 usos principales
     uso_top10 <- uso_summary |> 
       arrange(desc(porcentaje)) |> 
-      slice(1:15)
+      slice(1:50)
     
     uso_top10$Uso_envuelto <- str_wrap(uso_top10$Uso_n2, width = 50) 
     
@@ -2248,12 +2483,12 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = suelos_n1_capa_completa(), aes(fill = orden), color = NA) +
+      geom_sf(data = suelos_n1_filtrada(), aes(fill = orden), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Tipo de suelo (orden):",
-                        values = setNames(suelos_n1_capa_completa()$color,
-                                          suelos_n1_capa_completa()$orden)) +
+                        values = setNames(suelos_n1_filtrada()$color,
+                                          suelos_n1_filtrada()$orden)) +
       ggtitle(paste("Mapa de tipos de suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -2281,7 +2516,7 @@ server <- function(input, output, session) {
  
     uso_top10 <- uso_summary |> 
       arrange(desc(porcentaje)) |> 
-      slice(1:15)
+      slice(1:50)
     
     uso_top10$Uso_envuelto <- str_wrap(uso_top10$orden, width = 50) 
     
@@ -2687,6 +2922,17 @@ server <- function(input, output, session) {
       ) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
+      ggrepel::geom_text_repel(
+        data = enp_n1_capa_completa() |>
+          dplyr::mutate(
+            area = sf::st_area(geometry),
+            geometry = sf::st_point_on_surface(geometry)
+          ) |>
+          sf::st_as_sf(),
+        aes(label = SITE_NAME, geometry = geometry),
+        stat = "sf_coordinates",
+        size = 3
+      ) +
       scale_fill_hue(name = "Figuras de protección:") +
       ggtitle(paste("Mapa de Figuras de protección del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
@@ -2762,8 +3008,10 @@ server <- function(input, output, session) {
       )
   })
   
-  ###-----------------------------Mapa Litologia n2 ----------------------- 
-  output$Litologia2 <- renderPlot({
+  ##---------------------------------MDT-------------------------------
+  
+  ###-----------------------------Mapa Pendiente ----------------------- 
+  output$Pendiente <- renderPlot({
     
     validar_municipio()
     
@@ -2799,78 +3047,60 @@ server <- function(input, output, session) {
     
     p <- p +
       
-      geom_sf(data = litologia_n2_capa_completa(), aes(fill = DLO), color = NA) +
+      geom_sf(
+        data = pendiente_capa_completa(),
+        aes(fill = factor(nombre_clase,
+                          levels = c("Muy fuerte", "Fuerte", "Moderada", "Suave", "Llano"))),
+        color = NA
+      ) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
-      scale_fill_hue(name = "Litología") +
-      ggtitle(paste("Mapa de litologias detalladas del municipio de:\n", input$municipio)) +
+      scale_fill_manual(name = "Pendiente", 
+                        values = setNames(pendiente_capa_completa()$color, 
+                                          pendiente_capa_completa()$nombre_clase)) +
+      ggtitle(paste("Mapa de pendientes del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
     print(p)
   }, bg = "transparent")
+
   
-  ###----------------------------Grafico Litología nivel ---------------------
+  ###----------------------------Grafico Pendiente nivel 2---------------------
   
-  ###----------------------------Grafico Litología nivel 2---------------------
-  
-  output$barras_litologia_2 <- renderPlot({
+  output$barras_pendiente <- renderPlot({
     
     validar_municipio()
     
-    litologia_muni <- litologia_n2_capa_recortada()
-    litologia_muni$area <- st_area(litologia_muni)
+    pendiente_muni <- pendiente_capa_recortada()
+    pendiente_muni$area <- st_area(pendiente_muni)
     
-    lit_summary <- litologia_muni |> 
-      select(DLO, area) |> 
-      group_by(DLO) |> 
+    uso_summary <- pendiente_muni |> 
+      select(nombre_clase, color, area) |> 
+      group_by(nombre_clase, color) |> 
       summarise(area = sum(area), .groups = "drop")
     
-    total_area <- sum(lit_summary$area)
-    lit_summary$porcentaje <- as.numeric((lit_summary$area / total_area) * 100)
+    total_area <- sum(uso_summary$area)
+    uso_summary$porcentaje <- as.numeric((uso_summary$area / total_area) * 100)
     
-    # ordenar de mayor a menor
-    lit_top <- lit_summary |> 
-      arrange(desc(porcentaje))
     
-    # texto envuelto para etiquetas largas
-    lit_top$lit_envuelto <- stringr::str_wrap(lit_top$DLO, width = 50)
     
-    #  Crear la misma paleta que usa el mapa 
+    uso_top10 <- uso_summary |> 
+      arrange(desc(porcentaje)) |> 
+      slice(1:50)
     
-    clases_mapa <- sort(unique(litologia_n2_capa_completa()$DLO))
+    uso_top10$Uso_envuelto <- str_wrap(uso_top10$nombre_clase, width = 50) 
     
-    colores <- scales::hue_pal()(length(clases_mapa))
     
-    paleta <- setNames(colores, clases_mapa)
-    
-    # Grafico 
-    
-    ggplot(
-      lit_top,
-      aes(
-        x = reorder(lit_envuelto, porcentaje),
-        y = porcentaje,
-        fill = DLO
-      )
-    ) +
-      
+    ggplot(uso_top10, aes(x = reorder(Uso_envuelto, porcentaje), y = porcentaje, fill = Uso_envuelto)) +
       geom_col() +
-      
-      scale_fill_manual(values = paleta) +
-      
+      scale_fill_manual(values = setNames(uso_top10$color, uso_top10$Uso_envuelto)) +
       labs(
-        title = paste(
-          "Distribución de litologías detalladas en el municipio de",
-          input$municipio
-        ),
-        x = "Litología",
-        y = "Porcentaje (%)"
+        title = paste("Distribución de pendiente en el municipio de", input$municipio),
+        x = "Pendiente",
+        y = as.character("Porcentaje (%)")
       ) +
-      
       theme_minimal(base_size = 13) +
-      
-      coord_flip(ylim = c(0, 100)) +
-      
+      coord_flip(ylim = c(0, 100)) + 
       theme(
         legend.position = "none",
         axis.text.y = element_text(size = 11)
