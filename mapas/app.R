@@ -156,44 +156,52 @@ info_suelos_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Información general sobre el Mapa de Tipos de Suelo"),
-  p("El mapa representa la distribución espacial de los distintos tipos de suelo presentes en el territorio nacional."),
-  p("Está elaborado a partir de los datos del Mapa de Suelos de España 2006, desarrollado por el Instituto Geológico y Minero de España (IGME) y el Instituto Geográfico Nacional (IGN)."),
-  p("La diferenciación de los tipos de suelo sigue la clasificación de la Soil Taxonomy del USDA (United States Department of Agriculture), un sistema jerárquico ampliamente utilizado a nivel internacional para la caracterización y comparación de suelos. Esta taxonomía se basa en propiedades morfológicas, físicas, químicas y mineralógicas observadas en campo y laboratorio."),
+  p("El mapa muestra la distribución espacial de los distintos tipos de suelo presentes en el territorio nacional."),
+  p("Está elaborado a partir del Mapa de Suelos de España 2006, desarrollado por el Instituto Geológico y Minero de España (IGME) y el Instituto Geográfico Nacional (IGN)."),
+  p("La clasificación de los suelos se basa en la Soil Taxonomy del USDA (United States Department of Agriculture), un sistema jerárquico ampliamente utilizado a nivel internacional para la caracterización y comparación de suelos. Esta taxonomía se fundamenta en propiedades morfológicas, físicas, químicas y mineralógicas observadas en campo y laboratorio."),
+  
+  br(),
+  
+  h4("Fuente de datos"),
+  p("Los datos proceden del Mapa de Suelos de España 2006, elaborado por el IGME y el IGN, y clasificados según la Soil Taxonomy del USDA como sistema de referencia internacional."),
   
   br(),
   
   h4("Presentación y niveles de clasificación"),
-  p("La Soil Taxonomy organiza los suelos en diferentes niveles jerárquicos. En esta aplicación se presentan dos de ellos:"),
+  p("La Soil Taxonomy organiza los suelos en una estructura jerárquica. En esta aplicación se representan dos niveles principales:"),
   tags$ul(
     tags$li(strong("Nivel Orden:"), 
-            " Es la categoría más general dentro de la Soil Taxonomy. Agrupa los suelos en 12 órdenes basándose en sus características y procesos de formación dominantes. En España se han identificado 10 de estos órdenes."),
+            " categoría más general dentro de la clasificación. Agrupa los suelos en 12 órdenes en función de sus procesos de formación y características dominantes. En España están representados 10 de estos órdenes."),
     tags$li(strong("Nivel Suborden:"), 
-            " Subdivide cada orden en unidades más específicas en función de propiedades diagnósticas adicionales, como la humedad o el régimen térmico del suelo, ofreciendo una mayor resolución en su clasificación.")
+            " subdivisión de cada orden basada en propiedades diagnósticas adicionales como el régimen de humedad o temperatura del suelo, permitiendo una mayor resolución temática.")
   ),
-  p("Esta estructura jerárquica permite ajustar el análisis desde una perspectiva general a un nivel de detalle más preciso, conservando la coherencia con la fuente original sin modificaciones ni interpretaciones propias."),
+  p("Esta estructura jerárquica permite adaptar el análisis desde una visión general hasta un nivel de detalle más preciso, manteniendo la coherencia con la fuente original sin reinterpretaciones."),
   
   br(),
   
-  h4("Importancia de los tipos de suelo"),
-  p("La identificación y clasificación de los tipos de suelo es esencial para comprender la capacidad productiva, la dinámica hidrológica, la biodiversidad asociada y la vulnerabilidad a procesos de degradación. 
-     El conocimiento detallado de los suelos permite orientar la gestión sostenible del territorio, optimizar prácticas agrícolas y forestales, prevenir riesgos de erosión y desertificación, y apoyar la restauración de ecosistemas. 
-     Además, la cartografía de suelos es una herramienta clave para evaluar el impacto del cambio climático sobre la fertilidad y funcionalidad de los ecosistemas terrestres."),
+  h4("Utilidad del mapa de suelos"),
+  p("La cartografía de suelos es fundamental para comprender la capacidad productiva del territorio, la dinámica hidrológica, la biodiversidad asociada y la vulnerabilidad a procesos de degradación."),
+  p("Su análisis permite orientar la gestión sostenible del territorio, optimizar prácticas agrícolas y forestales, prevenir riesgos de erosión y desertificación, y apoyar la restauración de ecosistemas."),
+  p("Además, constituye una herramienta clave para evaluar los efectos del cambio climático sobre la fertilidad y funcionalidad de los suelos."),
   
   br(),
   
   h4("Acceso a los datos originales"),
-  p("Los datos del Mapa de Tipos de Suelo de España 2006 están disponibles para su consulta y descarga en el Centro Nacional de Información Geográfica (CNIG): ",
+  p("Los datos del Mapa de Suelos de España 2006 están disponibles para su consulta y descarga en el Centro Nacional de Información Geográfica (CNIG): ",
     a("https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=11262857",
       href = "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=11262857",
       target = "_blank")
   ),
+  
   br(),
+  
   h4("Tiempo de carga"),
   p("La generación de los datos puede tardar unos segundos, especialmente en municipios de gran extensión, por lo que es normal que haya una breve espera antes de visualizar la información."),
+  
   br(),
+  
   h4("Mapa")
 )
-
 
 info2_suelos_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
@@ -238,28 +246,48 @@ nota_suelos_ui <- div(
 info_litologia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
-  h4("Información general sobre la geología y litología"),
-  p("Este mapa ha sido elaborado a partir del Mapa Geológico de la Península Ibérica, Baleares y Canarias a escala 1:1.000.000."),
-  p("Fue desarrollado por el Instituto Geológico y Minero de España (IGME) en 1995."),
+  h4("Información general sobre el mapa geológico y litológico"),
+  p("El mapa representa la distribución de las principales unidades geológicas y litológicas en el territorio peninsular, balear y canario."),
+  p("Está elaborado a partir del Mapa Geológico de España a escala 1:1.000.000, desarrollado por el Instituto Geológico y Minero de España (IGME) en 1995."),
+  p("La información se deriva directamente de la base cartográfica original del IGME, sin reinterpretaciones o modificaciones adicionales."),
+  
+  br(),
+  
+  h4("Fuente de datos"),
+  p("Los datos proceden del Mapa Geológico de la Península Ibérica, Baleares y Canarias (IGME, 1995), disponible a escala 1:1.000.000."),
   
   br(),
   
   h4("Presentación y variables analizadas"),
-  p("El mapa ofrece dos variables de clasificación:"),
+  p("El mapa incluye dos niveles de clasificación basados en las variables originales del conjunto de datos:"),
   tags$ul(
-    tags$li(strong("Litología"), " corresponde a categorías generales de litologías, basadas directamente en la columna ", code("LITOLOGIA"), " de los datos originales."),
-    tags$li(strong("Geología"), " corresponde a unidades geologícas, utilizando la columna ", code("DLO"), ".")
+    tags$li(strong("Litología:"), 
+            " categorías generales de materiales geológicos, basadas directamente en la columna ", code("LITOLOGIA"), " del conjunto de datos original."),
+    tags$li(strong("Geología:"), 
+            " unidades geológicas más detalladas, derivadas de la columna ", code("DLO"), " del dataset original.")
   ),
-  p("Ambos niveles provienen directamente de la estructura de los datos proporcionados por el IGME, sin modificaciones o reinterpretaciones propias. Esta jerarquía facilita distintos enfoques de análisis, desde una visión general hasta un estudio más detallado."),
+  p("Ambas variables provienen directamente de la estructura original del IGME, manteniendo la coherencia con la fuente sin reinterpretaciones. Esta organización permite diferentes niveles de análisis, desde una visión general hasta un mayor detalle temático."),
   
   br(),
   
-  h4("Acceso a los datos"),
-  p("Los datos utilizados para generar este mapa pueden descargarse desde el IGME (Instituto Geológico y Minero de España). Están disponibles en: ",
+  h4("Utilidad del mapa geológico y litológico"),
+  p("La información geológica y litológica es fundamental para comprender la composición del territorio y los procesos que han dado lugar a su formación."),
+  p("Su análisis es clave en ámbitos como la planificación territorial, la gestión de recursos naturales, la evaluación de riesgos geológicos y la ingeniería civil."),
+  p("Además, permite identificar la distribución de materiales geológicos relevantes para la hidrogeología, la edafología y la dinámica del paisaje."),
+  
+  br(),
+  
+  h4("Acceso a los datos originales"),
+  p("Los datos del Mapa Geológico de España pueden consultarse y descargarse a través del Instituto Geológico y Minero de España (IGME): ",
     a("https://info.igme.es/cartografiadigital/geologica/Geologicos1MMapa.aspx?Id=Litologico1000&language=es",
       href = "https://info.igme.es/cartografiadigital/geologica/Geologicos1MMapa.aspx?Id=Litologico1000&language=es",
       target = "_blank")
   ),
+  
+  br(),
+  
+  h4("Tiempo de carga"),
+  p("La generación de los datos puede tardar unos segundos, especialmente en zonas con mayor complejidad geológica, por lo que es normal que haya una breve espera antes de visualizar la información."),
   
   br(),
   
@@ -302,22 +330,35 @@ info_enp_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   
   h4("Información general sobre el mapa de Espacios Naturales Protegidos (ENP)"),
-  p("Este mapa ha sido elaborado a partir del Mapa de Espacios Naturales Protegidos 2024"),
-  p("Fue desarrollado por el Ministerio para la transición ecológica y reto demográfico (MITECO), en concreto la Subdirección General del Sistema Integrado de Información de la Biodiversidad."),
+  p("El mapa muestra la distribución de los Espacios Naturales Protegidos en España según las diferentes figuras de protección existentes."),
+  p("Está elaborado a partir del Mapa de Espacios Naturales Protegidos 2024, desarrollado por el Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO), a través de la Subdirección General del Sistema Integrado de Información de la Biodiversidad."),
+  
+  br(),
+  
+  h4("Fuente de datos"),
+  p("Los datos proceden del Mapa de Espacios Naturales Protegidos 2024, elaborado por el MITECO, organismo responsable de la gestión y difusión de la información oficial sobre biodiversidad en España."),
   
   br(),
   
   h4("Presentación y niveles de clasificación"),
-  p("El mapa ofrece un nivele de clasificación:"),
+  p("El mapa presenta un único nivel de clasificación basado en las figuras de protección oficiales:"),
   tags$ul(
-    tags$li(strong("Nivel 1:"), " corresponde a todas las figuras de protección en España, basadas directamente en la columna ", code("DESIG_ABBR"), " de los datos originales.")
+    tags$li(strong("Figura de protección:"), 
+            " categoría que agrupa todos los tipos de espacios naturales protegidos en España, basada directamente en la columna ", code("DESIG_ABBR"), " del conjunto de datos original.")
   ),
-  p("El nivel proviene directamente de la estructura de los datos proporcionados por el MITECO, sin modificaciones o reinterpretaciones propias."),
+  p("Esta clasificación se deriva directamente de la estructura de datos proporcionada por el MITECO, sin modificaciones ni reinterpretaciones, garantizando la coherencia con la fuente oficial."),
   
   br(),
   
-  h4("Acceso a los datos"),
-  p("Los datos utilizados para generar este mapa pueden descargarse desde el MITECO. Están disponibles en: ",
+  h4("Utilidad de los espacios naturales protegidos"),
+  p("La información sobre Espacios Naturales Protegidos es clave para la conservación de la biodiversidad y la gestión sostenible del territorio."),
+  p("Permite identificar áreas con alto valor ecológico, evaluar la efectividad de las políticas de conservación y apoyar la planificación ambiental y territorial."),
+  p("También es fundamental para el seguimiento de la Red Natura 2000 y otras figuras de protección a nivel nacional e internacional."),
+  
+  br(),
+  
+  h4("Acceso a los datos originales"),
+  p("Los datos del Mapa de Espacios Naturales Protegidos 2024 pueden consultarse y descargarse en el Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO): ",
     a("https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/enp_descargas.html",
       href = "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/enp_descargas.html",
       target = "_blank")
@@ -325,9 +366,13 @@ info_enp_ui <- div(
   
   br(),
   
+  h4("Tiempo de carga"),
+  p("La generación de los datos puede tardar unos segundos, especialmente en zonas con alta densidad de espacios protegidos, por lo que es normal que haya una breve espera antes de visualizar la información."),
+  
+  br(),
+  
   h4("Mapa")
 )
-
 info2_enp_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
   h4("Interpretación del mapa"),
@@ -358,39 +403,48 @@ nota_enp_ui <- div(
 info_topografia_ui <- div(
   style = "padding: 1em; background-color: var(--bs-body-bg); border-radius: 5px; margin-bottom: 1em;",
   
-  h4("Información general sobre la Topografía"),
-  p("La topografía describe las características del relieve del terreno, incluyendo su inclinación o pendiente. Esta variable es fundamental para comprender la dinámica del paisaje y los procesos naturales que tienen lugar en él."),
+  h4("Información general sobre la topografía"),
+  p("La topografía describe las características del relieve del terreno, incluyendo su inclinación o pendiente."),
   p("En esta aplicación, la información topográfica se deriva de modelos digitales del terreno (MDT), que permiten representar la superficie terrestre de forma continua y analizar sus propiedades geomorfológicas con alta precisión."),
-  p("A partir de estos modelos se calcula la pendiente, una variable clave para caracterizar el comportamiento del terreno frente a factores como la escorrentía, la erosión o la estabilidad del suelo."),
+  p("A partir de estos modelos se calcula la pendiente, una variable clave para caracterizar el comportamiento del terreno frente a procesos como la escorrentía, la erosión o la estabilidad del suelo."),
+  
+  br(),
+  
+  h4("Fuente de datos"),
+  p("Los datos proceden del Modelo Digital del Terreno MDT25 (Primera Cobertura), generado por el Centro Nacional de Información Geográfica (CNIG), con una resolución de 25 metros basada en información altimétrica oficial."),
   
   br(),
   
   h4("Variable analizada"),
-  p("La topografía se presenta mediante la siguiente variable:"),
+  p("La topografía se representa mediante la siguiente variable:"),
   tags$ul(
     tags$li(
       strong("Pendiente:"),
-      " Representa el grado de inclinación del terreno. Se expresa generalmente en porcentaje o grados y permite identificar zonas llanas, suaves o con fuertes desniveles. Es un factor clave en procesos como la erosión, la estabilidad del terreno o la aptitud para usos agrícolas y urbanísticos."
+      " mide el grado de inclinación del terreno, expresado en porcentaje o grados. Permite diferenciar zonas llanas, suaves o con fuertes desniveles, y es clave en procesos como la erosión, la estabilidad del terreno y la aptitud del suelo para distintos usos."
     )
   ),
-  p("El análisis de la pendiente permite interpretar el relieve y comprender mejor su influencia sobre otros elementos del medio físico."),
+  p("El análisis de la pendiente permite interpretar la forma del relieve y su influencia sobre otros elementos del medio físico."),
   
   br(),
   
-  h4("Importancia de la topografía"),
-  p("La topografía es un factor determinante en numerosos procesos ambientales. La pendiente condiciona la velocidad del agua superficial, el riesgo de erosión y la estabilidad del terreno. 
-Estas variables son esenciales para la planificación territorial, la gestión forestal, la prevención de riesgos naturales y el diseño de infraestructuras.
-Además, juegan un papel clave en la evaluación del impacto del cambio climático, ya que afectan a la disponibilidad de agua y a la resiliencia de los ecosistemas."),
+  h4("Utilidad de la topografía"),
+  p("La topografía es un factor determinante en numerosos procesos ambientales y territoriales."),
+  p("La pendiente condiciona la escorrentía, el riesgo de erosión y la estabilidad del terreno, siendo fundamental para la planificación territorial, la gestión forestal, la prevención de riesgos naturales y el diseño de infraestructuras."),
+  p("Además, influye en la disponibilidad de agua y en la resiliencia de los ecosistemas, lo que la convierte en una variable clave en la evaluación del impacto del cambio climático."),
   
   br(),
   
-  h4("Fuente de los datos"),
-  p("Los datos topográficos utilizados en esta aplicación proceden de modelos digitales del terreno de alta resolución, generados a partir de técnicas de teledetección y cartografía oficial. Estos modelos permiten obtener información precisa y actualizada sobre la superficie del territorio."),
+  h4("Acceso a los datos originales"),
+  p("Los datos del Modelo Digital del Terreno MDT25 (Primera Cobertura) pueden descargarse en el Centro Nacional de Información Geográfica (CNIG): ",
+    a("https://centrodedescargas.cnig.es/CentroDescargas/modelo-digital-terreno-mdt25-primera-cobertura",
+      href = "https://centrodedescargas.cnig.es/CentroDescargas/modelo-digital-terreno-mdt25-primera-cobertura",
+      target = "_blank")
+  ),
   
   br(),
   
   h4("Tiempo de carga"),
-  p("La generación de los datos puede tardar unos segundos, especialmente en municipios de gran extensión, por lo que es normal que haya una breve espera antes de visualizar la información."),
+  p("La generación de los datos puede tardar unos segundos, especialmente en municipios de gran extensión o con alta variabilidad del relieve, por lo que es normal que haya una breve espera antes de visualizar la información."),
   
   br(),
   
@@ -836,6 +890,10 @@ ui <- page_sidebar(
                  tabsetPanel(
                    tabPanel("Corine nivel 1",
                             info_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_corine_n1")
+                            ),
                             withSpinner(plotOutput("Corine1"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_corine_ui,
@@ -859,6 +917,10 @@ ui <- page_sidebar(
                    
                    tabPanel("Corine nivel 2",
                             info_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_corine_n2")
+                            ),
                             withSpinner(plotOutput("Corine2"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_corine_ui,
@@ -890,6 +952,10 @@ ui <- page_sidebar(
                    
                    tabPanel("Corine nivel 3",
                             info_corine_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_corine_n3")
+                            ),
                             withSpinner(plotOutput("Corine3"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_corine_ui,
@@ -960,6 +1026,10 @@ ui <- page_sidebar(
                    
                    tabPanel("Tipo de suelos (sub-orden)",
                             info_suelos_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_suelos_n2")
+                            ),
                             withSpinner(plotOutput("Suelos2"), type = 4, color = "#2c7a7b"),
                             br(),
                             info2_suelos_ui,
@@ -1324,6 +1394,40 @@ server <- function(input, output, session) {
     
   })
   
+  output$selector_categoria_corine_n1 <- renderUI({
+    
+    capa <- corine_n1_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$Uso_n1))
+    
+    selectInput(
+      "categoria_corine_n1",
+      "Selecciona una o varias categorías de usos del suelo:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  corine_n1_filtrada <- reactive({
+    
+    capa <- corine_n1_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso_n1 %in% categoria)
+  })
+  
   
   ###------------------------Capa Corine n 1 recortada---------------------
   
@@ -1373,10 +1477,26 @@ server <- function(input, output, session) {
     )
     
     corine_n1 <- left_join(corine_union, leyenda_n1, by = c("code_group" = "CODE"))
-    
-    
-    
   })
+  
+  corine_n1_filtrada_recortada <- reactive({
+    
+    capa <- corine_n1_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso_n1 %in% categoria)
+  })
+  
+  
   ###-----------------------------Capa Corine n 2--------------------------
   
   corine_n2_capa_completa <- reactive({
@@ -1456,6 +1576,40 @@ server <- function(input, output, session) {
     
     
   })
+  
+  output$selector_categoria_corine_n2 <- renderUI({
+    
+    capa <- corine_n2_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$Uso_n2))
+    
+    selectInput(
+      "categoria_corine_n1",
+      "Selecciona una o varias categorías de usos del suelo:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  corine_n2_filtrada <- reactive({
+    
+    capa <- corine_n2_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n2
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso_n2 %in% categoria)
+  })
   ###--------------------------Capa Corine n 2 recortada-------------------
   
   corine_n2_capa_recortada <- reactive({
@@ -1527,11 +1681,24 @@ server <- function(input, output, session) {
     
     corine_n2 <- left_join(corine_union, leyenda_n2, by = c("code_group" = "CODE"))
     
-    
-    
   })
   
-  
+  corine_n2_filtrada_recortada <- reactive({
+    
+    capa <- corine_n2_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n2
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso_n2 %in% categoria)
+  })
   
   ###-----------------------------Capa Corine n 3--------------------------
 
@@ -1553,11 +1720,51 @@ server <- function(input, output, session) {
       return(NULL)
     }
     
+    corine_muni$Uso <- dplyr::recode(
+      corine_muni$Uso,
+      "Terrenos principalmente agrícolas, pero con importantes espacios de vegetación natural" =
+        "Agrícola pero con vegetación natural"
+    )
+    
     visible_area <- visible_area()
     
     corine_muni_recorte <- st_intersection(corine_muni, visible_area)
     
     return(corine_muni_recorte)
+  })
+  
+  output$selector_categoria_corine_n3 <- renderUI({
+    
+    capa <- corine_n3_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$Uso))
+    
+    selectInput(
+      "categoria_corine_n3",
+      "Selecciona una o varias categorías de usos del suelo:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  corine_n3_filtrada <- reactive({
+    
+    capa <- corine_n3_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n3
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso %in% categoria)
   })
   
   ###--------------------------Capa Corine n 3 recortada-------------------
@@ -1576,8 +1783,32 @@ server <- function(input, output, session) {
       NULL
     })
     
+    corine_muni$Uso <- dplyr::recode(
+      corine_muni$Uso,
+      "Terrenos principalmente agrícolas, pero con importantes espacios de vegetación natural" =
+        "Agrícola pero con vegetación natural"
+    )
+    
+    
     municipio <- municipio_sf()
     corine_muni <- st_intersection(corine_muni, municipio)
+  })
+  
+  corine_n3_filtrada_recortada <- reactive({
+    
+    capa <- corine_n3_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_corine_n3
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(Uso %in% categoria)
   })
   
   ###-----------------------------Capa Suelos n 1--------------------------
@@ -1708,6 +1939,40 @@ server <- function(input, output, session) {
     return(suelos_muni_recorte)
   })
   
+  output$selector_categoria_suelos_n2 <- renderUI({
+    
+    capa <- suelos_n2_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$suborden))
+    
+    selectInput(
+      "categoria_suelos_n2",
+      "Selecciona una o varias categorías de suelo:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  suelos_n2_filtrada <- reactive({
+    
+    capa <- suelos_n2_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_suelos_n2
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(suborden %in% categoria)
+  })
+  
   ###--------------------------Capa Suelos n 2 recortada-------------------
   
   suelos_n2_capa_recortada <- reactive({
@@ -1728,6 +1993,22 @@ server <- function(input, output, session) {
     suelos_muni <- st_intersection(suelos_muni, municipio)
   })
   
+  suelos_n2_filtrada_recortada <- reactive({
+    
+    capa <- suelos_n2_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_suelos_n2
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(suborden %in% categoria)
+  })
   ###-------------------------Capa Ltologia gen --------------------------
   
   litologia_n1_capa_completa <- reactive({
@@ -1980,47 +2261,80 @@ server <- function(input, output, session) {
   }
   
   ##---------------------- Descargas Corine Nivel 1 --------------------------
+  categoria_corine_n1_txt <- reactive({
+    
+    categoria <- input$categoria_corine_n1
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
   
   output$desc_corine_n1 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n1_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n1_capa_completa,
+    nombre_base = reactive(paste0("capa_corine_n1_", categoria_corine_n1_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n1_filtrada,
     formato_input = reactive(input$formato_descarga_corine_n1)
   )
   
   output$desc_corine_n1_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n1_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n1_capa_recortada,
+    nombre_base = reactive(paste0("capa_corine_n1_recortada_", categoria_corine_n1_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n1_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_corine_n1)
   )
   
   ##---------------------- Descargas Corine Nivel 2 --------------------------
+  categoria_corine_n2_txt <- reactive({
+    
+    categoria <- input$categoria_corine_n2
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
   
   output$desc_corine_n2 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n2_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n2_capa_completa,
+    nombre_base = reactive(paste0("capa_corine_n2_", categoria_corine_n2_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n2_filtrada,
     formato_input = reactive(input$formato_descarga_corine_n2)
   )
   
   output$desc_corine_n2_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n2_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n2_capa_recortada,
+    nombre_base = reactive(paste0("capa_corine_n2_recortada_", categoria_corine_n2_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n2_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_corine_n2)
   )
   
+  
   ##---------------------- Descargas Corine Nivel 3 --------------------------
   
+  categoria_corine_n3_txt <- reactive({
+    
+    categoria <- input$categoria_corine_n3
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
+  
   output$desc_corine_n3 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n3_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n3_capa_completa,
+    nombre_base = reactive(paste0("capa_corine_n3_", categoria_corine_n3_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n3_filtrada,
     formato_input = reactive(input$formato_descarga_corine_n3)
   )
   
   output$desc_corine_n3_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_corine_n3_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = corine_n3_capa_recortada,
+    nombre_base = reactive(paste0("capa_corine_n3_recortada_", categoria_corine_n3_txt(), "_", input$municipio)),
+    obtener_capa_sf = corine_n3_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_corine_n3)
   )
-  
   ##---------------------- Descargas Suelos Nivel 1 --------------------------
 
   categoria_suelos_txt <- reactive({
@@ -2048,15 +2362,26 @@ server <- function(input, output, session) {
   
   ##---------------------- Descargas Suelos Nivel 2 --------------------------
   
+  categoria_suelos_2_txt <- reactive({
+    
+    categoria <- input$categoria_suelos_n2
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
   output$desc_suelos_n2 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_suelos_n2_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = suelos_n2_capa_completa,
+    nombre_base = reactive(paste0("capa_suelos_n2_", categoria_suelos_2_txt(), "_", input$municipio)),
+    obtener_capa_sf = suelos_n2_filtrada,
     formato_input = reactive(input$formato_descarga_suelos_n2)
   )
   
   output$desc_suelos_n2_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_suelos_n2_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = suelos_n2_capa_recortada,
+    nombre_base = reactive(paste0("capa_suelos_n2_recortada_", categoria_suelos_2_txt(), "_", input$municipio)),
+    obtener_capa_sf = suelos_n2_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_suelos_n2)
   )
   ##---------------------- Descargas Litología Nivel 1 -----------------------
@@ -2153,12 +2478,12 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = corine_n1_capa_completa(), aes(fill = Uso_n1), color = NA) +
+      geom_sf(data = corine_n1_filtrada(), aes(fill = Uso_n1), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Usos del suelo nivel 1:",
-                        values = setNames(corine_n1_capa_completa()$color_n1,
-                                          corine_n1_capa_completa()$Uso_n1)) +
+                        values = setNames(corine_n1_filtrada()$color_n1,
+                                          corine_n1_filtrada()$Uso_n1)) +
       ggtitle(paste("Mapa de usos del suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -2243,12 +2568,12 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = corine_n2_capa_completa(), aes(fill = Uso_n2), color = NA) +
+      geom_sf(data = corine_n2_filtrada(), aes(fill = Uso_n2), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Usos del suelo nivel 2:",
-                        values = setNames(corine_n2_capa_completa()$color_n2,
-                                          corine_n2_capa_completa()$Uso_n2)) +
+                        values = setNames(corine_n2_filtrada()$color_n2,
+                                          corine_n2_filtrada()$Uso_n2)) +
       ggtitle(paste("Mapa de usos del suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -2362,12 +2687,12 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = corine_n3_capa_completa(), aes(fill = Uso), color = NA) +
+      geom_sf(data = corine_n3_filtrada(), aes(fill = Uso), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Usos del suelo nivel 3:",
-                        values = setNames(corine_n3_capa_completa()$color,
-                                          corine_n3_capa_completa()$Uso)) +
+                        values = setNames(corine_n3_filtrada()$color,
+                                          corine_n3_filtrada()$Uso)) +
       ggtitle(paste("Mapa de usos del suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
       
@@ -2602,12 +2927,12 @@ server <- function(input, output, session) {
     }
     
     p <- p +
-      geom_sf(data = suelos_n2_capa_completa(), aes(fill = suborden), color = NA) +
+      geom_sf(data = suelos_n2_filtrada(), aes(fill = suborden), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Tipos de suelo (suborden)",
-                        values = setNames(suelos_n2_capa_completa()$color,
-                                          suelos_n2_capa_completa()$suborden)) +
+                        values = setNames(suelos_n2_filtrada()$color,
+                                          suelos_n2_filtrada()$suborden)) +
       ggtitle(paste("Mapa de tipos de suelo del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -2918,20 +3243,42 @@ server <- function(input, output, session) {
           dplyr::mutate(area = sf::st_area(geometry)) |>
           dplyr::arrange(desc(area)),
         aes(fill = ODESIGNATE),
-        color = NA
+        color = "black", linewidth = 0.5
       ) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       ggrepel::geom_text_repel(
         data = enp_n1_capa_completa() |>
-          dplyr::mutate(
-            area = sf::st_area(geometry),
-            geometry = sf::st_point_on_surface(geometry)
+          
+          dplyr::group_by(SITE_NAME) |>
+          
+          dplyr::summarise(
+            geometry = sf::st_union(geometry),
+            .groups = "drop"
           ) |>
+          
+          dplyr::mutate(
+            area = sf::st_area(geometry)
+          ) |>
+          
+          dplyr::arrange(desc(area)) |>
+          
+          dplyr::slice(1:4) |>   # número de etiquetas
+          
+          dplyr::mutate(
+            geometry = sf::st_point_on_surface(geometry),
+            label_wrap = stringr::str_wrap(SITE_NAME, width = 20)
+          ) |>
+          
           sf::st_as_sf(),
-        aes(label = SITE_NAME, geometry = geometry),
+        
+        aes(label = label_wrap, geometry = geometry),
+        
         stat = "sf_coordinates",
-        size = 3
+        
+        size = 4,
+        
+        segment.color = NA
       ) +
       scale_fill_hue(name = "Figuras de protección:") +
       ggtitle(paste("Mapa de Figuras de protección del municipio de:\n", input$municipio)) +
