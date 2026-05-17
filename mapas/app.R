@@ -1065,6 +1065,10 @@ ui <- page_sidebar(
                  tabsetPanel(
                    tabPanel("Litología",
                             info_litologia_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_litologia_n1")
+                            ),
                             withSpinner(plotOutput("Litologia1"), 
                                         type = 4, 
                                         color = "#2c7a7b"),
@@ -1089,6 +1093,10 @@ ui <- page_sidebar(
                    ),
                    tabPanel("Geologia",
                             info_litologia_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_geologia")
+                            ),
                             withSpinner(plotOutput("Geologia"), type = 4, color = "#2c7a7b"),
                             br(),
                             info3_litologia_ui,
@@ -1149,6 +1157,10 @@ ui <- page_sidebar(
                  tabsetPanel(
                    tabPanel("Pendientes",
                             info_topografia_ui,
+                            div(
+                              style = "padding: 1em; background-color: var(--bs-body-bs); border-radius: 5px; margin-bottom: 1em;",
+                              uiOutput("selector_categoria_pendiente")
+                            ),
                             withSpinner(plotOutput("Pendiente"), 
                                         type = 4, 
                                         color = "#2c7a7b"),
@@ -2030,6 +2042,40 @@ server <- function(input, output, session) {
   
   })
   
+  output$selector_categoria_litologia_n1 <- renderUI({
+    
+    capa <- litologia_n1_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$LITOLOGIA))
+    
+    selectInput(
+      "categoria_litologia_n1",
+      "Selecciona una o varias categorías de litología:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  litologia_n1_filtrada <- reactive({
+    
+    capa <- litologia_n1_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_litologia_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(LITOLOGIA %in% categoria)
+  })
+  
   ###---------------------------Capa Litologia gen recortada------------------
   
   litologia_n1_capa_recortada <- reactive({
@@ -2051,6 +2097,22 @@ server <- function(input, output, session) {
   
   })
   
+  litologia_n1_filtrada_recortada <- reactive({
+    
+    capa <- litologia_n1_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_litologia_n1
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(LITOLOGIA %in% categoria)
+  })
   ###-------------------------Capa Geologia --------------------------
   
   geologia_capa_completa <- reactive({
@@ -2073,6 +2135,40 @@ server <- function(input, output, session) {
     
   })
   
+  output$selector_categoria_geologia <- renderUI({
+    
+    capa <- geologia_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$DLO))
+    
+    selectInput(
+      "categoria_geologia",
+      "Selecciona una o varias categorías de geología:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  geologia_filtrada <- reactive({
+    
+    capa <- geologia_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_geologia
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(DLO %in% categoria)
+  })
+  
   ###---------------------------Capa Geologia recortada------------------
   
   geologia_capa_recortada <- reactive({
@@ -2092,6 +2188,23 @@ server <- function(input, output, session) {
     municipio <- municipio_sf()
     geologia_muni <- st_intersection(geologia_muni, municipio)
     
+  })
+  
+  geologia_filtrada_recortada <- reactive({
+    
+    capa <- geologia_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_geologia
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(DLO %in% categoria)
   })
   
   
@@ -2191,6 +2304,40 @@ server <- function(input, output, session) {
     
   })
   
+  output$selector_categoria_pendiente <- renderUI({
+    
+    capa <- pendiente_capa_completa()
+    
+    req(capa)
+    
+    categorias <- sort(unique(capa$nombre_clase))
+    
+    selectInput(
+      "categoria_pendiente",
+      "Selecciona una o varias categorías clases de pendiente:",
+      choices = categorias,
+      multiple = TRUE
+    )
+    
+  })
+  
+  pendiente_filtrada <- reactive({
+    
+    capa <- pendiente_capa_completa()
+    
+    req(capa)
+    
+    categoria <- input$categoria_pendiente
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(nombre_clase %in% categoria)
+  })
+  
   ###---------------------------Capa Pendiente recortada------------------
   
   pendiente_capa_recortada <- reactive({
@@ -2222,6 +2369,23 @@ server <- function(input, output, session) {
     municipio <- municipio_sf()
     pendiente_muni <- st_intersection(pendiente_muni, municipio)
     
+  })
+  
+  pendiente_filtrada_recortada <- reactive({
+    
+    capa <- pendiente_capa_recortada()
+    
+    req(capa)
+    
+    categoria <- input$categoria_pendiente
+    
+    # si NULL o vacío → todo
+    if (is.null(categoria) || length(categoria) == 0) {
+      return(capa)
+    }
+    
+    capa |>
+      dplyr::filter(nombre_clase %in% categoria)
   })
   
   #-------------------------------Descarga de capas--------------------------
@@ -2386,43 +2550,78 @@ server <- function(input, output, session) {
   )
   ##---------------------- Descargas Litología Nivel 1 -----------------------
   
+  categoria_litologia_txt <- reactive({
+    
+    categoria <- input$categoria_litologia_n1
+
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
   output$desc_litologia_n1 <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_litologia_n1_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = litologia_n1_capa_completa,
+    nombre_base = reactive(paste0("capa_litologia_n1_", categoria_litologia_txt(), "_", input$municipio)),
+    obtener_capa_sf = litologia_n1_filtrada,
     formato_input = reactive(input$formato_descarga_litologia_n1)
   )
   
   output$desc_litologia_n1_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_litologia_n1_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = litologia_n1_capa_recortada,  
+    nombre_base = reactive(paste0("capa_litologia_n1_recortada_", categoria_litologia_txt(), "_", input$municipio)),
+    obtener_capa_sf = litologia_n1_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_litologia_n1)
   )
-  
   ##---------------------- Descargas Geologia -----------------------
   
+  
+  categoria_geologia_txt <- reactive({
+    
+    categoria <- input$categoria_geologia
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
+
   output$desc_geologia <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_geologia_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = geologia_capa_completa,
+    nombre_base = reactive(paste0("capa_geologia_", categoria_geologia_txt(), "_", input$municipio)),
+    obtener_capa_sf = geologia_filtrada,
     formato_input = reactive(input$formato_descarga_geologia)
   )
   
   output$desc_geologia_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_geologia_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = geologia_capa_recortada,  
+    nombre_base = reactive(paste0("capa_geologia_recortada_", categoria_geologia_txt(), "_", input$municipio)),
+    obtener_capa_sf = geologia_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_geologia)
   )
-  
   ##---------------------- Descargas Pendiente -----------------------
   
+  
+  categoria_pendiente_txt <- reactive({
+    
+    categoria <- input$categoria_pendiente
+    
+    if (is.null(categoria) || length(categoria) == 0) {
+      return("todas")
+    }
+    
+    paste(categoria, collapse = "-")
+  })
+  
+  
   output$desc_pendiente <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_pendiente_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = pendiente_capa_completa,
+    nombre_base = reactive(paste0("capa_pendiente_", categoria_pendiente_txt(), "_", input$municipio)),
+    obtener_capa_sf = pendiente_filtrada,
     formato_input = reactive(input$formato_descarga_pendiente)
   )
   
   output$desc_pendiente_recortada <- crear_handler_descarga(
-    nombre_base = reactive(paste0("capa_pendiente_recortada_", input$comunidad, "_", input$municipio)),
-    obtener_capa_sf = pendiente_capa_recortada,  
+    nombre_base = reactive(paste0("capa_pendiente_recortada_", categoria_pendiente_txt(), "_", input$municipio)),
+    obtener_capa_sf = pendiente_filtrada_recortada,
     formato_input = reactive(input$formato_descarga_pendiente)
   )
   
@@ -3052,12 +3251,12 @@ server <- function(input, output, session) {
     
     p <- p +
       
-      geom_sf(data = litologia_n1_capa_completa(), aes(fill = LITOLOGIA), color = NA) +
+      geom_sf(data = litologia_n1_filtrada(), aes(fill = LITOLOGIA), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Litología", 
-                        values = setNames(litologia_n1_capa_completa()$color, 
-                                          litologia_n1_capa_completa()$litologia)) +
+                        values = setNames(litologia_n1_filtrada()$color, 
+                                          litologia_n1_filtrada()$litologia)) +
       ggtitle(paste("Mapa de litologias del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -3142,12 +3341,12 @@ server <- function(input, output, session) {
     
     p <- p +
       
-      geom_sf(data = geologia_capa_completa(), aes(fill = DLO), color = NA) +
+      geom_sf(data = geologia_filtrada(), aes(fill = DLO), color = NA) +
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Geologia", 
-                        values = setNames(geologia_capa_completa()$colorcorregido, 
-                                          geologia_capa_completa()$DLO)) +
+                        values = setNames(geologia_filtrada()$colorcorregido, 
+                                          geologia_filtrada()$DLO)) +
       ggtitle(paste("Mapa de geologias del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
@@ -3395,7 +3594,7 @@ server <- function(input, output, session) {
     p <- p +
       
       geom_sf(
-        data = pendiente_capa_completa(),
+        data = pendiente_filtrada(),
         aes(fill = factor(nombre_clase,
                           levels = c("Muy fuerte", "Fuerte", "Moderada", "Suave", "Llano"))),
         color = NA
@@ -3403,8 +3602,8 @@ server <- function(input, output, session) {
       geom_sf(data = municipio_sf, color = "black", fill = NA, linewidth = 1.5) +
       geom_sf(data = area_fuera_municipio, fill = "gray", alpha = 0.6) +
       scale_fill_manual(name = "Pendiente", 
-                        values = setNames(pendiente_capa_completa()$color, 
-                                          pendiente_capa_completa()$nombre_clase)) +
+                        values = setNames(pendiente_filtrada()$color, 
+                                          pendiente_filtrada()$nombre_clase)) +
       ggtitle(paste("Mapa de pendientes del municipio de:\n", input$municipio)) +
       capas_gg_comunes()
     
