@@ -840,6 +840,15 @@ dicc_suelos_2 <- data.frame(
 #---------------------------------------------UI---------------------------------------
 ui <- page_sidebar(
   
+  tags$head(
+    tags$meta(name = "viewport", content = "width=1200"),
+    tags$style(HTML("
+    body {
+      min-width: 1200px;
+    }
+  "))
+  ),
+  
   title = "CartoAmbiente",
   
   sidebar = sidebar(
@@ -1356,8 +1365,13 @@ server <- function(input, output, session) {
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
     
-    url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+    url_geojson <- paste0(
+      "https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/",
+      URLencode(nombrecom_corregido, reserved = TRUE),
+      "/",
+      URLencode(nombre_corregido, reserved = TRUE),
+      ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1449,8 +1463,11 @@ server <- function(input, output, session) {
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
     
-    url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+    url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1516,8 +1533,11 @@ server <- function(input, output, session) {
     nombre_corregido <- nombre_corregido()
     nombrecom_corregido <- nombrecom_corregido()
     
-    url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+    url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1630,7 +1650,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1720,7 +1744,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1787,7 +1815,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosCorine/raw/refs/heads/main/Capasfinales/Corine/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     corine_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1831,7 +1863,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosSuelos/raw/refs/heads/main/Capasfinales/Suelos/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     suelos_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1893,7 +1929,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosSuelos/raw/refs/heads/main/Capasfinales/Suelos/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     suelos_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1932,7 +1972,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosSuelos/raw/refs/heads/main/Capasfinales/Suelossubord/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     suelos_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -1993,7 +2037,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosSuelos/raw/refs/heads/main/Capasfinales/Suelossubord/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     suelos_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -2029,7 +2077,11 @@ server <- function(input, output, session) {
   nombrecom_corregido <- nombrecom_corregido()
   
   url_geojson <- paste0("https://github.com/Carlos5682/DatosGeologia/raw/refs/heads/main/Capasfinales/Litologia/", 
-                        nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                        URLencode(nombrecom_corregido, reserved = TRUE),
+                        "/",
+                        URLencode(nombre_corregido, reserved = TRUE),
+                        ".geojson"
+  )
   
   litologia_muni <- tryCatch({
     st_read(url_geojson, quiet = TRUE)
@@ -2084,7 +2136,11 @@ server <- function(input, output, session) {
   nombrecom_corregido <- nombrecom_corregido()
   
   url_geojson <- paste0("https://github.com/Carlos5682/DatosGeologia/raw/refs/heads/main/Capasfinales/Litologia/", 
-                        nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                        URLencode(nombrecom_corregido, reserved = TRUE),
+                        "/",
+                        URLencode(nombre_corregido, reserved = TRUE),
+                        ".geojson"
+  )
   
   litologia_muni <- tryCatch({
     st_read(url_geojson, quiet = TRUE)
@@ -2121,7 +2177,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosGeologia/raw/refs/heads/main/Capasfinales/Geologia/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     geologia_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -2177,8 +2237,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosGeologia/raw/refs/heads/main/Capasfinales/Geologia/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
-    
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     geologia_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
     }, error = function(e) {
@@ -2216,7 +2279,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosENP/raw/refs/heads/main/Capasfinales/Enp/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     enp_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -2237,7 +2304,11 @@ server <- function(input, output, session) {
     nombrecom_corregido <- nombrecom_corregido()
     
     url_geojson <- paste0("https://github.com/Carlos5682/DatosENP/raw/refs/heads/main/Capasfinales/Enp/", 
-                          nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                          URLencode(nombrecom_corregido, reserved = TRUE),
+                          "/",
+                          URLencode(nombre_corregido, reserved = TRUE),
+                          ".geojson"
+    )
     
     enp_muni <- tryCatch({
       st_read(url_geojson, quiet = TRUE)
@@ -2290,7 +2361,11 @@ server <- function(input, output, session) {
     } else {
       
       url_geojson <- paste0("https://github.com/Carlos5682/DatosMDT/raw/refs/heads/main/Capasfinales/Pendiente/", 
-                            nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                            URLencode(nombrecom_corregido, reserved = TRUE),
+                            "/",
+                            URLencode(nombre_corregido, reserved = TRUE),
+                            ".geojson"
+      )
       
       pendiente_muni <- tryCatch({
         st_read(url_geojson, quiet = TRUE)
@@ -2356,7 +2431,11 @@ server <- function(input, output, session) {
     } else {
       
       url_geojson <- paste0("https://github.com/Carlos5682/DatosMDT/raw/refs/heads/main/Capasfinales/Pendiente/", 
-                            nombrecom_corregido, "/", nombre_corregido, ".geojson")
+                            URLencode(nombrecom_corregido, reserved = TRUE),
+                            "/",
+                            URLencode(nombre_corregido, reserved = TRUE),
+                            ".geojson"
+      )
       
       pendiente_muni <- tryCatch({
         st_read(url_geojson, quiet = TRUE)
