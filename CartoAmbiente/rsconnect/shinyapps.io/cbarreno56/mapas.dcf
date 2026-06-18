@@ -1,0 +1,12 @@
+name: mapas
+title:
+username: cbarreno56
+account: cbarreno56
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17374642
+bundleId: 12052304
+url: https://cbarreno56.shinyapps.io/mapas/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
